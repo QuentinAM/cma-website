@@ -50,6 +50,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 event.target.value.length < 10){
                 set_input_error(input_element, "Username must be at least 10 characters long");
             }
+
+            // Email invalid
+            if (event.target.id == "signup_email" && 
+               (!event.target.value.includes('@') || !event.target.value.includes('.')))
+            {
+                set_input_error(input_element, "Invalid email");
+            }
+
+            // Password too short
+            if (event.target.id == "signup_password" &&
+                event.target.value.length > 0 &&
+                event.target.value.length < 8){
+                set_input_error(input_element, "Password must be at least 8 characters long");
+            }
+
+            if (event.target.id == "signup_password_confirm" &&
+                event.target.value != document.querySelector("#signup_password").value){
+                set_input_error(input_element, "Passwords do not match");
+            }
         });
 
         input_element.addEventListener("input", event => {
