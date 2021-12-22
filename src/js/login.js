@@ -1,3 +1,5 @@
+import { } from './auth.js';
+
 function set_form_message(form_element, type, message){
     const message_element = form_element.querySelector('.form__message');
 
@@ -41,6 +43,15 @@ document.addEventListener("DOMContentLoaded", () => {
         set_form_message(login_form, "error", "Invalid username or password");
     });
 
+    create_account_form.addEventListener("submit", event => {
+        event.preventDefault();
+
+        // Create account
+        create_user(create_account_form.querySelector("#signup_email").value,
+                    create_account_form.querySelector("#signup_password").value);
+
+    });
+
     document.querySelectorAll('.form__input').forEach(input_element => {
         input_element.addEventListener("blur", event => {
             
@@ -75,4 +86,5 @@ document.addEventListener("DOMContentLoaded", () => {
            clear_input_error(input_element); 
         });
     });
+    
 });
