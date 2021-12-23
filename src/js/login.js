@@ -1,4 +1,27 @@
-import { } from './auth.js';
+// firebase.auth().onAuthStateChanged(function(user) {
+//     if (user) {
+//         // User is signed in.
+//         var displayName = user.displayName;
+//         var email = user.email;
+//         var emailVerified = user.emailVerified;
+//         var photoURL = user.photoURL;
+//         var isAnonymous = user.isAnonymous;
+//         var uid = user.uid;
+//         var providerData = user.providerData;
+//         console.log(user);
+//         console.log(displayName);
+//         console.log(email);
+//         console.log(emailVerified);
+//         console.log(photoURL);
+//         console.log(isAnonymous);
+//         console.log(uid);
+//         console.log(providerData);
+//         // ...
+//     } else {
+//         // User is signed out.
+//         // ...
+//     }
+// });
 
 function set_form_message(form_element, type, message){
     const message_element = form_element.querySelector('.form__message');
@@ -37,18 +60,28 @@ document.addEventListener("DOMContentLoaded", () => {
     login_form.addEventListener("submit", event => {
         event.preventDefault();
         
-        // Perform ajax login
+        console.log("login...\n");
+        const email = login_form.querySelector("#login_email").value;
+        const password = login_form.querySelector("#login_password").value;
 
-        // Warning message
-        set_form_message(login_form, "error", "Invalid username or password");
+        // firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+        //     // Handle Errors here.
+        //     var errorCode = error.code;
+        //     var errorMessage = error.message;
+            
+        //     set_form_message(login_form, "error", errorMessage);
+        
+        // });
+        
+        set_form_message(login_form, "success", "Logging in...");
     });
 
     create_account_form.addEventListener("submit", event => {
         event.preventDefault();
 
-        // Create account
-        create_user(create_account_form.querySelector("#signup_email").value,
-                    create_account_form.querySelector("#signup_password").value);
+        // // Create account
+        // create_user(create_account_form.querySelector("#signup_email").value,
+        //             create_account_form.querySelector("#signup_password").value);
 
     });
 

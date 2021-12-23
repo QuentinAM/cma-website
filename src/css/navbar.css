@@ -9,7 +9,7 @@
 }
 
 .navbar a:hover{
-    color: red;
+    color: rgb(2, 104, 95);
     transition: all 0.4s;
 }
 

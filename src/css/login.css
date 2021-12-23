@@ -1,3 +1,8 @@
+body{
+    background: url(../../assets/background.jpeg);
+    background-size: cover;
+}
+
 account_management{
     --color-primary: #068a83;
     --color-primary-dark: #064d52;
@@ -12,8 +17,6 @@ account_management{
     align-items: center;
     justify-content: center;
     font-size: 18px;
-    background: url(../../assets/background.jpeg);
-    background-size: cover;
 }
 
 .container{

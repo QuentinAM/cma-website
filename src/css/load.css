@@ -1,0 +1,39 @@
+body.background{
+    opacity: 0;
+    background: url(../../assets/background.jpeg);
+    background-size: cover;
+}
+
+body.background.loaded{
+    animation: fadeIn_background 1s ease-in 0s forwards;
+}
+
+.navbar{
+    opacity: 0;
+}
+
+.navbar.loaded{
+    animation: fadeIn_navbar 1s ease-in 0s forwards;
+}
+   
+@keyframes fadeIn_navbar {
+    60% {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+     
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+}
+
+@keyframes fadeIn_background {
+    60% {
+      opacity: 0;
+    }
+     
+    100% {
+      opacity: 0.75;
+    }
+}
