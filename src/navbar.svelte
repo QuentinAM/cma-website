@@ -1,21 +1,21 @@
 <script>
     export let logged_in;
 
-    export let open_accueil = () => console.log("opening accueil");
-    export let open_appointement = () => console.log("opening appointement");
-    export let open_account = () => console.log('opening account');
-    export let open_login = () => console.log('opening login');
-    export let logout = () => console.log('logging out');
+    export let open_accueil;
+    export let open_appointement;
+    export let open_account;
+    export let open_login;
+    export let logout;
 </script>
 
 <nav class="navbar">
-    <a on:click={open_accueil} href='#' class="nav-item">Accueil</a>
-    <a on:click={open_appointement} href='#' class="nav-item">Prendre rendez-vous</a>
+    <button on:click={open_accueil()} class="nav-item">Accueil</button>
+    <button on:click={open_appointement()} class="nav-item">Prendre rendez-vous</button>
     {#if logged_in}
-        <a on:click={open_account} href='#' class="nav-item">Mon Compte</a>
-        <a on:click={logout} href='#' class="nav-item">Se déconnecter</a>
+        <button on:click={open_account()} class="nav-item">Mon Compte</button>
+        <button on:click={logout()} class="nav-item">Se déconnecter</button>
     {:else}
-        <a on:click={open_login} href='#' class="nav-item">Se connecter</a>
+        <button on:click={open_login()} class="nav-item">Se connecter</button>
     {/if}
 </nav>
 
@@ -30,7 +30,15 @@
     width:100%
 }
 
-.navbar a:hover{
+.navbar button{
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.navbar button:hover{
     color: rgb(14, 135, 165);
     transition: all 0.4s;
 }
@@ -43,7 +51,7 @@
     text-decoration: none;
 }
 
-.navbar .nav-item a:hover{
+.navbar .nav-item button:hover{
     color: rgb(16, 16, 42);
     transition: 0.25s;
 }

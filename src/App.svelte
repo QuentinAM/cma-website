@@ -1,7 +1,9 @@
 <script>
 	// Import login form
-	// NAVBAR INCLUDED IN LOGIN FORM TO MANAGE LOGIN/LOGOUT
-	import LoginForm from './form/login.svelte';
+	import LoginForm, { logout } from './form/login.svelte';
+
+	// Import navbar
+    import Navbar from './navbar.svelte';
 
 	const pages = [
 		"home",
@@ -13,14 +15,26 @@
 	
 	let page_displayed = pages[1];
 
+	let loggedIn = false;
+
 </script>
 
 <main>
 
-<LoginForm displayed={page_displayed == "login"} />
+<Navbar logged_in={loggedIn} 
+		open_accueil={() => page_displayed = pages[0]}
+		open_login={() => {console.log("Opening login"); page_displayed = pages[1]}}
+		open_account={() => page_displayed = pages[3]}
+		open_appointement={() => page_displayed = pages[4]}
+		logout={() => {logout(); loggedIn = false; page_displayed = pages[0]}}
+/>
 <!-- svelte-ignore empty-block -->
 {#if page_displayed == "home"}
 
+{:else if page_displayed == "login"}
+	<LoginForm ui_login={() => {loggedIn = true; page_displayed = pages[3]}} 
+			   ui_logout={() => {loggedIn = false; page_displayed = pages[0]}}
+	/>
 {:else}
 	
 {/if}
