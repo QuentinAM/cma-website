@@ -1,23 +1,29 @@
 <script>
-	// Import button
-	import CustomButton from './button.svelte';
+	// Import login form
+	// NAVBAR INCLUDED IN LOGIN FORM TO MANAGE LOGIN/LOGOUT
+	import LoginForm from './form/login.svelte';
 
-	// Import input
-	import CustomInput from './form/input.svelte';
+	const pages = [
+		"home",
+		"login",
+		"register",
+		"profile",
+		"appointment"
+	];
+	
+	let page_displayed = pages[1];
 
-	// Email
-	let email = "...";
 </script>
 
 <main>
-	<CustomButton name="Continue"/>
-	<CustomInput placeholder="Email" type="text" id="test" 
-				isError={(!email.includes('@')) || (!email.includes('.'))} 
-				error_message="Invalid email" 
-				bind:content={email}
-	/>
+
+<LoginForm displayed={page_displayed == "login"} />
+<!-- svelte-ignore empty-block -->
+{#if page_displayed == "home"}
+
+{:else}
 	
-	<p>Email is {email}</p>
+{/if}
 </main>
 
 <style>
