@@ -2,6 +2,12 @@
 	// Import login form
 	import LoginForm, { logout } from './form/login.svelte';
 
+	// Import account page
+	import Account from './pages/account.svelte';
+
+	// Import register form
+	import RegisterForm from './form/register.svelte';
+
 	// Import navbar
     import Navbar from './navbar.svelte';
 
@@ -17,6 +23,13 @@
 
 	let loggedIn = false;
 
+	import firebase from 'firebase/compat/app';
+
+	const firebaseConfig = {
+        
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
 </script>
 
 <main>
@@ -34,9 +47,16 @@
 {:else if page_displayed == "login"}
 	<LoginForm ui_login={() => {loggedIn = true; page_displayed = pages[3]}} 
 			   ui_logout={() => {loggedIn = false; page_displayed = pages[0]}}
+			   show_register={() => page_displayed = pages[2]}
 	/>
+{:else if page_displayed == "register"}
+	<RegisterForm/>
+{:else if page_displayed == "profile"}
+	<Account/>
+{:else if page_displayed == "appointment"}
+
 {:else}
-	
+
 {/if}
 </main>
 
