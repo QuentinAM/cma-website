@@ -8,8 +8,17 @@
 	// Import register form
 	import RegisterForm from './form/register.svelte';
 
+	// Import home page
+	import Home from './pages/home.svelte';
+
 	// Import navbar
     import Navbar from './navbar.svelte';
+
+	// Import footer
+	import Footer from './footer.svelte';
+
+	// Import appointments
+	import Appointment from './appointment/appointment.svelte';
 
 	const pages = [
 		"home",
@@ -19,7 +28,7 @@
 		"appointment"
 	];
 	
-	let page_displayed = pages[1];
+	let page_displayed = pages[0];
 
 	let loggedIn = false;
 
@@ -36,14 +45,14 @@
 
 <Navbar logged_in={loggedIn} 
 		open_accueil={() => page_displayed = pages[0]}
-		open_login={() => {console.log("Opening login"); page_displayed = pages[1]}}
+		open_login={() => page_displayed = pages[1]}
 		open_account={() => page_displayed = pages[3]}
 		open_appointement={() => page_displayed = pages[4]}
 		logout={() => {logout(); loggedIn = false; page_displayed = pages[0]}}
 />
 <!-- svelte-ignore empty-block -->
 {#if page_displayed == "home"}
-
+	<Home/>
 {:else if page_displayed == "login"}
 	<LoginForm ui_login={() => {loggedIn = true; page_displayed = pages[3]}} 
 			   ui_logout={() => {loggedIn = false; page_displayed = pages[0]}}
@@ -54,10 +63,9 @@
 {:else if page_displayed == "profile"}
 	<Account/>
 {:else if page_displayed == "appointment"}
-
-{:else}
-
+	<Appointment/>
 {/if}
+<!--Footer/-->
 </main>
 
 <style>

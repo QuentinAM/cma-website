@@ -20,7 +20,7 @@
 </nav>
 
 <style>
-    .navbar{
+.navbar{
     background-color: rgb(38, 38, 47);
     color: #fff;
     display:flex;
