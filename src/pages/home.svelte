@@ -2,7 +2,7 @@
 
 </script>
 
-<h1>Cabinet Marc Abel</h1>
+<h1></h1>
 
 <style>
 
