@@ -1,5 +1,14 @@
 <script>
-    import firebase from 'firebase/compat/app';
+    import { get_hour_available_in_the_day, get_number_of_appointment_in_the_day, is_in_the_past } from './utils.js';
+
+    // Global variables
+    const number_of_appointments_per_day = 8;
+
+    // Shown day
+    let shown_day = [];
+    
+    // Current month
+    let whole_month = [];
 
     // Get current date information
     let date = new Date();
@@ -135,86 +144,103 @@
             next_month.push(i + 1);
         }
         console.log(next_month);
+
+        // Update the shown day
+        whole_month = [];
+        actual_month.forEach(async function(i){
+            console.log("New day : " + i);
+            if (is_in_the_past(year, month, i))
+            {
+                whole_month.push(-1);
+            }
+            else
+            {
+                var result = await get_number_of_appointment_in_the_day(year, month, i);
+                console.log("n : " + result);
+                whole_month.push(number_of_appointments_per_day - result);
+            }
+        });
     }
     update_ui();
 
-    function get_number_of_appointment_in_the_day(year, month, day)
+    async function g(year, month, day)
     {
-        let number_of_appointment = 0;
-        let appointments = firebase.database().ref(`appointment/${year}/${month}/${day}`);
-        appointments.once('value', function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
-                number_of_appointment++;
-            });
-        });
-        return number_of_appointment;
-    }
-
-    function write_appointment_to_database(user_id, purpose, year, month, day, hour) {
-        // Write appointment for the user
-        firebase.database().ref(`users/${user_id}/appointments/${year}-${month}${day}-${hour}`).set({
-            purpose: purpose
-        });
-
-        // Write appointment for the receiver
-        firebase.database().ref(`appointment/${year}/${month}/${day}/${hour}`).set({
-            user_id: user_id,
-            purpose: purpose
-        });
-    }
-
-    function delete_appointment_to_database(user_id, year, month, day, hour) {
-        // Delete appointment for the user
-        firebase.database().ref(`users/${user_id}/appointments/${year}-${month}${day}-${hour}`).remove();
-
-        // Delete appointment for the receiver
-        firebase.database().ref(`appointment/${year}/${month}/${day}/${hour}`).remove();
+        var res = await get_hour_available_in_the_day(year, month, day);
+        console.log("res " + res);
+        shown_day = res;
     }
 
 </script>
 
-<main class="card">
-    <section class="card__header">
-      <button on:click={to_previous_month}></button>
-      <h3>{day} {day_number}</h3>
-      <h3>{hour}:{minute}</h3>
-      <h3>{month_name} {year}</h3>
-      <button on:click={to_next_month}></button>
-    </section>
-    <section class="card__body">
-      <ul class="card__body--days">
-        <li>LUN</li>
-        <li>MAR</li>
-        <li>MER</li>
-        <li>JEU</li>
-        <li>VEN</li>
-        <li>SAM</li>
-        <li>DIM</li>
-      </ul>
-      <ul class="card__body--dates">
-        {#each previous_month as day}
-        <li class="prev">{day}</li>
-        {/each}
-        
-        {#each actual_month as day}
-        <li>{day}</li>
-        {/each}
-        
-        {#each next_month as day}
-        <li class="next">{day}</li>
-        {/each}
-      </ul>
-    </section>
-    <div class="card__footer">
-      
-    </div>
-  </main>
+<page>
+    <main class="card">
+        <section class="card__header">
+        <button on:click={to_previous_month}></button>
+        <h3>{day} {day_number}</h3>
+        <h3>{hour}:{minute}</h3>
+        <h3>{month_name} {year}</h3>
+        <button on:click={to_next_month}></button>
+        </section>
+        <section class="card__body">
+        <ul class="card__body--days">
+            <li>LUN</li>
+            <li>MAR</li>
+            <li>MER</li>
+            <li>JEU</li>
+            <li>VEN</li>
+            <li>SAM</li>
+            <li>DIM</li>
+        </ul>
+        <ul class="card__body--dates">
+            {#each previous_month as day}
+                <li class="prev">{day}</li>
+            {/each}
+            
+            {#each actual_month as day}
+                <li on:click={g(year, month, day)} class="circle">{day}
+                    {#if whole_month[day] != -1}
+                        <span>{whole_month[day]}</span>
+                    {/if}
+                   
+                </li>
+            {/each}
+            
+            {#each next_month as day}
+                <li class="next">{day}</li>
+            {/each}
+        </ul>
+        </section>
+    </main>
+
+    <selection>
+        {#if shown_day.length != 0}
+            {#each shown_day as day}
+                {#if day[1]}
+                    <li class="available">{day[0]}h00</li>
+                {:else}
+                    <li class="not_available">{day[0]}h00</li>
+                {/if}
+            {/each}
+        {:else}
+            <li>Cliquer sur un jour pour voir les détails</li>
+        {/if}
+    </selection>
+</page>
 
 <style>
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+main{
+    float: left;
+    width: 50%;
+}
+
+li{
+    list-style: none;
 }
 ul {
     list-style: none;
@@ -310,6 +336,7 @@ button{
     font-size: 1.2rem;
     color: black;
     border-radius: 15px;
+    background-color: orange;
 }
 
 .card .card__body .card__body--dates li:hover{
@@ -334,6 +361,34 @@ button{
     padding-top: 0.25rem;
     display: grid;
     place-items: center;
+}
+
+
+selection{
+    border: 2px solid black;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    width: 25%;
+}
+
+selection li{
+    flex: 1;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 15px;
+}
+
+selection li.available:hover{
+    cursor: pointer;
+    background: orange;
+    border: 2px solid orange;
+    border-radius: 15px;
+}
+
+selection li.not_available{
+    color: rgba(75, 75, 75, 0.411);
 }
 
 </style>

@@ -28,14 +28,15 @@
 		"appointment"
 	];
 	
-	let page_displayed = pages[0];
+	let page_displayed = pages[4];
 
 	let loggedIn = false;
 
 	import firebase from 'firebase/compat/app';
 
 	const firebaseConfig = {
-        
+       
+
     };
 
     const app = firebase.initializeApp(firebaseConfig);
