@@ -35,8 +35,7 @@
 	import firebase from 'firebase/compat/app';
 
 	const firebaseConfig = {
-	
-
+		
     };
 
     const app = firebase.initializeApp(firebaseConfig);
@@ -88,6 +87,6 @@
 		margin: 0;
 		padding: 0;
 		box-sizing: border-box;
-		font-family: "DM Sans", sans-serif;
+		font-family: "DM Sans", sans-serif !important;
 	}
 </style>

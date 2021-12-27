@@ -105,3 +105,9 @@ export async function get_hour_available_in_the_day(year, month, day)
     });
     return hour_available;
 }
+
+export function book_appointment(year, month, day, hour, purpose)
+{
+    let user_id = firebase.auth().currentUser.uid;
+    write_appointment_to_database(user_id, purpose, year, month, day, hour);
+}

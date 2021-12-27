@@ -1,5 +1,7 @@
 <script>
-    import { get_hour_available_in_the_day, get_number_of_appointment_in_the_day, is_in_the_past } from './utils.js';
+    import { get_hour_available_in_the_day, get_number_of_appointment_in_the_day, is_in_the_past, book_appointment } from './utils.js';
+
+    import CustomInput from '../form/input.svelte';
 
     // Global variables
     const number_of_appointments_per_day = 8;
@@ -174,7 +176,7 @@
 
     // Create promise to be awaited
     var promise = update_ui();
- 
+    let purpose = "";
 </script>
 
 <page>
@@ -232,6 +234,16 @@
             <li>Cliquer sur un jour pour voir les détails</li>
         {/if}
     </selection>
+
+    <appointment_details>
+        <CustomInput placeholder="Sujet du rendez-vous"
+                     type="text"
+                     isError={false}
+                     error_message=""
+                     bind:content={purpose}
+        />
+    
+    </appointment_details>
 </page>
 
 <style>
