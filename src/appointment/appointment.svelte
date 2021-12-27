@@ -83,14 +83,14 @@
     function to_next_month()
     {
         month++;
-        if (month == 13)
+        if (month > 12)
         {
             month = 1;
             year++;
         }
         month_name = get_month();
         
-        update_ui();
+        promise = update_ui();
     }
 
     function to_previous_month()
@@ -103,13 +103,13 @@
         }
         month_name = get_month();
 
-        update_ui();
+        promise = update_ui();
     }
 
-    function update_ui()
+    async function update_ui()
     {
         // Get the first day of the next month
-        let first_day = new Date(year, month - 1 == 0 ? 12 : month - 1, 1);
+        let first_day = new Date(year, month - 1, 1);
         let first_day_number = first_day.getDay();
 
         // Get the number of days in both month
@@ -145,31 +145,36 @@
         }
         console.log(next_month);
 
-        // Update the shown day
-        whole_month = [];
-        actual_month.forEach(async function(i){
-            console.log("New day : " + i);
-            if (is_in_the_past(year, month, i))
+        // Update the shown month
+        whole_month = [-1];
+        for (let i = 0; i < actual_month.length; i++)
+        {
+            console.log("New day : " + (i + 1));
+            if (is_in_the_past(year, month, i + 1))
             {
                 whole_month.push(-1);
             }
             else
             {
-                var result = await get_number_of_appointment_in_the_day(year, month, i);
+                var result = await get_number_of_appointment_in_the_day(year, month, i + 1);
                 console.log("n : " + result);
                 whole_month.push(number_of_appointments_per_day - result);
             }
-        });
+        }
+        console.log(whole_month);
+        return whole_month;
     }
-    update_ui();
 
-    async function g(year, month, day)
+    async function show_day(year, month, day)
     {
         var res = await get_hour_available_in_the_day(year, month, day);
         console.log("res " + res);
         shown_day = res;
     }
 
+    // Create promise to be awaited
+    var promise = update_ui();
+ 
 </script>
 
 <page>
@@ -196,14 +201,16 @@
                 <li class="prev">{day}</li>
             {/each}
             
-            {#each actual_month as day}
-                <li on:click={g(year, month, day)} class="circle">{day}
-                    {#if whole_month[day] != -1}
-                        <span>{whole_month[day]}</span>
-                    {/if}
-                   
-                </li>
-            {/each}
+            
+            {#await promise then whole_month}
+                {#each actual_month as day}
+                    <li on:click={show_day(year, month, day)} class="circle active">{day}
+                        {#if whole_month[day] != -1}
+                            <span>{whole_month[day]}</span>
+                        {/if}
+                    </li>
+                {/each}
+            {/await}
             
             {#each next_month as day}
                 <li class="next">{day}</li>
@@ -316,11 +323,11 @@ button{
     color: #ccc;
 }
 
-.card .card__body .card__body--dates li.active{
+/* .card .card__body .card__body--dates li.active{
     background: orange;
     color: white;
     border-radius: 15px;
-}
+} */
 
 .card .card__body .card__body--dates li.circle{
     border: 2px solid;
@@ -339,7 +346,7 @@ button{
     background-color: orange;
 }
 
-.card .card__body .card__body--dates li:hover{
+.card .card__body .card__body--dates li:hover.active{
     cursor: pointer;
     background: orange;
     border: 2px solid orange;
@@ -351,7 +358,7 @@ button{
     transform: scale(0.98);
 }
 
-.card .card__footer{
+/* .card .card__footer{
     color: black;
     font-weight: bold;
     text-decoration: none;
@@ -361,7 +368,7 @@ button{
     padding-top: 0.25rem;
     display: grid;
     place-items: center;
-}
+} */
 
 
 selection{
