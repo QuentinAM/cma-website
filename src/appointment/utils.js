@@ -56,29 +56,41 @@ export async function get_number_of_appointment_in_the_day(year, month, day)
             return number_of_appointments_per_day;
         }
     });
-    console.log("number_of_appointment : " + number_of_appointment);
     return number_of_appointment;
 }
 
 export function write_appointment_to_database(user_id, purpose, year, month, day, hour) {
     // Write appointment for the user
-    firebase.database().ref(`users/${user_id}/appointments/${year}-${month}${day}-${hour}`).set({
+    firebase.database().ref(`users/${user_id}/appointments/${year}-${month}-${day}-${hour}`).set({
         purpose: purpose
     });
 
     // Write appointment for the receiver
-    firebase.database().ref(`appointment/${year}/${month}/${day}/${hour}`).set({
+    firebase.database().ref(`appointments/${year}/${month}/${day}/${hour}`).set({
         user_id: user_id,
         purpose: purpose
     });
 }
 
+export async function get_appointment_from_database(user_id)
+{
+    let res = [];
+    let appointments = firebase.database().ref(`users/${user_id}/appointments`);
+
+    await appointments.once('value', function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+            res.push([childSnapshot.key, childSnapshot.val().purpose]);
+        });
+    });
+    return res;
+}
+
 export function delete_appointment_to_database(user_id, year, month, day, hour) {
     // Delete appointment for the user
-    firebase.database().ref(`users/${user_id}/appointments/${year}-${month}${day}-${hour}`).remove();
+    firebase.database().ref(`users/${user_id}/appointments/${year}-${month}-${day}-${hour}`).remove();
 
     // Delete appointment for the receiver
-    firebase.database().ref(`appointment/${year}/${month}/${day}/${hour}`).remove();
+    firebase.database().ref(`appointments/${year}/${month}/${day}/${hour}`).remove();
 }
 
 export async function get_hour_available_in_the_day(year, month, day)
@@ -110,4 +122,34 @@ export function book_appointment(year, month, day, hour, purpose)
 {
     let user_id = firebase.auth().currentUser.uid;
     write_appointment_to_database(user_id, purpose, year, month, day, hour);
+}
+
+// Get month name
+export function get_month(month){
+    switch (month) {
+        case 1:
+            return "Janvier";
+        case 2:
+            return "Février";
+        case 3:
+            return "Mars";
+        case 4:
+            return "Avril";
+        case 5:
+            return "Mai";
+        case 6:
+            return "Juin";
+        case 7:
+            return "Juillet";
+        case 8:
+            return "Août";
+        case 9:
+            return "Septembre";
+        case 10:
+            return "Octobre";
+        case 11:
+            return "Novembre";
+        default:
+            return "Décembre";
+    }
 }

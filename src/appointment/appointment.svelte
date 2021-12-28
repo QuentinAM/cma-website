@@ -1,7 +1,8 @@
 <script>
-    import { get_hour_available_in_the_day, get_number_of_appointment_in_the_day, is_in_the_past, book_appointment } from './utils.js';
+    import { get_hour_available_in_the_day, get_number_of_appointment_in_the_day, is_in_the_past, book_appointment, get_month } from './utils.js';
 
     import CustomInput from '../form/input.svelte';
+    import CustomButton from '../button.svelte';
 
     // Global variables
     const number_of_appointments_per_day = 8;
@@ -17,10 +18,16 @@
     let day_number = date.getDate();
     let day = get_day();
     let month = date.getMonth() + 1;
-    let month_name = get_month();
+    let month_name = get_month(month);
     let year = date.getFullYear();
     let hour = date.getHours();
     let minute = date.getMinutes();
+
+    // Selection variable
+    let year_selected = 0;
+    let month_selected = 0;
+    let day_selected = 0;
+    let hour_selected = 0;
     
     // Get day name
     function get_day(){
@@ -42,36 +49,7 @@
         }
     }
 
-    // Get month name
-    function get_month(){
-        console.log(month);
-        switch (month) {
-            case 1:
-                return "Janvier";
-            case 2:
-                return "Février";
-            case 3:
-                return "Mars";
-            case 4:
-                return "Avril";
-            case 5:
-                return "Mai";
-            case 6:
-                return "Juin";
-            case 7:
-                return "Juillet";
-            case 8:
-                return "Août";
-            case 9:
-                return "Septembre";
-            case 10:
-                return "Octobre";
-            case 11:
-                return "Novembre";
-            default:
-                return "Décembre";
-        }
-    }
+    
 
     // Get number of day in a month
     function daysInMonth (month, year) {
@@ -90,7 +68,7 @@
             month = 1;
             year++;
         }
-        month_name = get_month();
+        month_name = get_month(month);
         
         promise = update_ui();
     }
@@ -103,7 +81,7 @@
             month = 12;
             year--;
         }
-        month_name = get_month();
+        month_name = get_month(month);
 
         promise = update_ui();
     }
@@ -131,27 +109,23 @@
         {
             previous_month.push(number_of_day_previous_month - first_day_number + i + 2);
         }
-        console.log(previous_month);
     
         // Fill the actual month
         for (let i = 0; i < number_of_day_actual_month; i++)
         {
             actual_month.push(i + 1);
         }
-        console.log(actual_month);
 
         // Fill the next month
         for (let i = 0; i < 35 - number_of_day_actual_month - previous_month.length; i++)
         {
             next_month.push(i + 1);
         }
-        console.log(next_month);
 
         // Update the shown month
-        whole_month = [-1];
+        whole_month = [];
         for (let i = 0; i < actual_month.length; i++)
         {
-            console.log("New day : " + (i + 1));
             if (is_in_the_past(year, month, i + 1))
             {
                 whole_month.push(-1);
@@ -159,11 +133,11 @@
             else
             {
                 var result = await get_number_of_appointment_in_the_day(year, month, i + 1);
-                console.log("n : " + result);
                 whole_month.push(number_of_appointments_per_day - result);
             }
         }
-        console.log(whole_month);
+        console.log("Actual month: " + actual_month + " " + actual_month.length);
+        console.log("Whole month: " + whole_month + " " + whole_month.length);
         return whole_month;
     }
 
@@ -172,6 +146,17 @@
         var res = await get_hour_available_in_the_day(year, month, day);
         console.log("res " + res);
         shown_day = res;
+
+        // Update selection variable
+        year_selected = year;
+        month_selected = month;
+        day_selected = day;
+        hour_selected = 0;
+    }
+
+    function selec_hour(hour)
+    {
+        hour_selected = hour;
     }
 
     // Create promise to be awaited
@@ -207,8 +192,8 @@
             {#await promise then whole_month}
                 {#each actual_month as day}
                     <li on:click={show_day(year, month, day)} class="circle active">{day}
-                        {#if whole_month[day] != -1}
-                            <span>{whole_month[day]}</span>
+                        {#if whole_month[day - 1] != -1}
+                            <span>{whole_month[day - 1]}</span>
                         {/if}
                     </li>
                 {/each}
@@ -225,7 +210,7 @@
         {#if shown_day.length != 0}
             {#each shown_day as day}
                 {#if day[1]}
-                    <li class="available">{day[0]}h00</li>
+                    <li class="available" on:click={selec_hour(day[0])}>{day[0]}h00</li>
                 {:else}
                     <li class="not_available">{day[0]}h00</li>
                 {/if}
@@ -233,17 +218,22 @@
         {:else}
             <li>Cliquer sur un jour pour voir les détails</li>
         {/if}
-    </selection>
+        {#if hour_selected != 0}
+        <appointment_details>
+            <CustomInput placeholder="Sujet du rendez-vous"
+                        type="text"
+                        id=""
+                        isError={purpose == ""}
+                        error_message="Précisez le sujet du rendez-vous"
+                        bind:content={purpose}
+            />
+            <CustomButton name = "Envoyer"
+                        on:click={book_appointment(year_selected, month_selected, day_selected, hour_selected, purpose)}
+            />
 
-    <appointment_details>
-        <CustomInput placeholder="Sujet du rendez-vous"
-                     type="text"
-                     isError={false}
-                     error_message=""
-                     bind:content={purpose}
-        />
-    
-    </appointment_details>
+        </appointment_details>
+    {/if}
+    </selection>
 </page>
 
 <style>
