@@ -1,10 +1,13 @@
 <script>
-    import { get_hour_available_in_the_day, get_number_of_appointment_in_the_day, is_in_the_past, book_appointment, get_month } from './utils.js';
+    import { get_hour_available_in_the_day, get_number_of_appointment_in_the_day, is_in_the_past, book_appointment, get_month, is_weekend, hours } from './utils.js';
 
     import CustomInput from '../form/input.svelte';
     import CustomButton from '../button.svelte';
 
-    // Global variables
+    import firebase from 'firebase/compat/app';
+    import 'firebase/compat/firestore';
+
+    // Const variables
     const number_of_appointments_per_day = 8;
 
     // Shown day
@@ -133,6 +136,7 @@
             else
             {
                 var result = await get_number_of_appointment_in_the_day(year, month, i + 1);
+                console.log("result " + result);
                 whole_month.push(number_of_appointments_per_day - result);
             }
         }
@@ -154,14 +158,43 @@
         hour_selected = 0;
     }
 
-    function selec_hour(hour)
+    function select_hour(hour)
     {
         hour_selected = hour;
+    }
+
+    function confirm_appointment()
+    {
+        book_appointment(year_selected, month_selected, day_selected, hour_selected, purpose);
+        whole_month[day_selected - 1]--;
     }
 
     // Create promise to be awaited
     var promise = update_ui();
     let purpose = "";
+
+    // Listen for changes in the database
+    // firebase.firestore().collection(`appointments/${year}/${month}`)
+    //     .onSnapshot((querySnapshot) => {
+    //         var new_date = [];
+    //         querySnapshot.forEach((doc) => {
+    //             var hour_in_the_day = 0;
+                
+    //             if (is_in_the_past(year, month, doc.id))
+    //             {
+    //                 new_date.push(-1);
+    //             }
+    //             else{
+    //                 for (let hour in hours)
+    //                 {
+    //                     if (doc.data().hour.purpose == "" && doc.data().hour.purpose == "user_id")
+    //                     hour_in_the_day++;
+    //                 }   
+    //             }
+    //         });
+    //         whole_month = new_date;
+    // });
+
 </script>
 
 <page>
@@ -191,11 +224,15 @@
             
             {#await promise then whole_month}
                 {#each actual_month as day}
-                    <li on:click={show_day(year, month, day)} class="circle active">{day}
-                        {#if whole_month[day - 1] != -1}
-                            <span>{whole_month[day - 1]}</span>
-                        {/if}
-                    </li>
+                    {#if is_weekend(year, month, day - 1)}
+                        <li class="prev">{day}</li>
+                    {:else}
+                        <li on:click={() => show_day(year, month, day)} class="circle active">{day}
+                            {#if whole_month[day - 1] != -1}
+                                <span>{whole_month[day - 1]}</span>
+                            {/if}
+                        </li>
+                    {/if}
                 {/each}
             {/await}
             
@@ -210,9 +247,9 @@
         {#if shown_day.length != 0}
             {#each shown_day as day}
                 {#if day[1]}
-                    <li class="available" on:click={selec_hour(day[0])}>{day[0]}h00</li>
+                    <li class="available" on:click={() => select_hour(day[0])}>{day[0]}</li>
                 {:else}
-                    <li class="not_available">{day[0]}h00</li>
+                    <li class="not_available">{day[0]}</li>
                 {/if}
             {/each}
         {:else}
@@ -228,7 +265,7 @@
                         bind:content={purpose}
             />
             <CustomButton name = "Envoyer"
-                        on:click={book_appointment(year_selected, month_selected, day_selected, hour_selected, purpose)}
+                        on:click={confirm_appointment}
             />
 
         </appointment_details>

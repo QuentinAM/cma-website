@@ -35,7 +35,13 @@
 	import firebase from 'firebase/compat/app';
 
 	const firebaseConfig = {
-		
+		apiKey: "AIzaSyDBTcx2N9UUsaj6_NZrwXW9BgzcqMiE984",
+		authDomain: "cma-web-6ea3a.firebaseapp.com",
+		databaseURL: "https://cma-web-6ea3a-default-rtdb.europe-west1.firebasedatabase.app",
+		projectId: "cma-web-6ea3a",
+		storageBucket: "cma-web-6ea3a.appspot.com",
+		messagingSenderId: "388388589028",
+		appId: "1:388388589028:web:9e946ace3413fb10430bf1"
     };
 
     const app = firebase.initializeApp(firebaseConfig);

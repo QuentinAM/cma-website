@@ -3,22 +3,20 @@
     import 'firebase/compat/auth'
     import 'firebase/compat/database';
 
-    import { get_appointment_from_database, get_month} from './utils.js';
+    import { get_appointment_from_database, get_month, delete_appointment_to_database} from './utils.js';
 
-    let promise = get_appointment_from_database(firebase.auth().currentUser.uid);
-
-    function compute_date(date)
-    {
-        // Split string
-        let date_array = date.split("-");
-        return `${date_array[2]} ${get_month(date_array[1])} ${date_array[0]} - ${date_array[3]}h00`;
-    }
+    const user_id = firebase.auth().currentUser.uid;
+    let promise = get_appointment_from_database(user_id);
 
 </script>
+
 <h1>Mes rendez-vous</h1>
 {#await promise then appointments}
     {#each appointments as app}
-        <li>{compute_date(app[0])} : {app[1]}</li>
+        <div class="appointment">
+            <li>{app.day} {get_month(app.month)} {app.year}  {app.hour} : {app[1]}</li>
+            <button on:click={() => delete_appointment_to_database(user_id, app.year, app.month, app.day, app.hour)}></button>
+        </div>
     {/each}
 {/await}
 

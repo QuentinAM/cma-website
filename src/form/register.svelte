@@ -6,7 +6,11 @@
     import CustomInput from './input.svelte';
 
     import firebase from 'firebase/compat/app';
+    import "firebase/compat/firestore";
     import "firebase/compat/auth";
+
+    // Get a reference to the database service
+    const db = firebase.firestore();
 
     // Informations
     let email = "";
@@ -19,7 +23,7 @@
     let password = "";
     let password_confirm = "";
 
-    function register()
+    async function register()
     {
         if (firstname == "" || 
             lastname == "" ||
@@ -39,8 +43,25 @@
         else
         {
             // Create user
-            firebase.auth().createUserWithEmailAndPassword
-            (email, password).then()
+            await firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then((userCredential) =>{
+                // Add user to database
+                db.collection("users").doc(userCredential.user.uid).set({
+                   created_at: firebase.firestore.FieldValue.serverTimestamp(),
+                   email: email,
+                   first_name: firstname,
+                   last_name: lastname,
+                   icon_url: "",
+                   phone: phone,
+                   appointments: {},
+                })
+                .then(() => {
+                    alert("User created");
+                })
+                .catch((error) => {
+                    alert("Error: " + error.message);
+                });
+            })
             .catch((error) =>
             {
                 // Handle Errors here.
