@@ -11,15 +11,14 @@
 </script>
 
 <h1>Mes rendez-vous</h1>
-{#await promise then appointments}
-    {#each appointments as app}
-        <div class="appointment">
-            <li>{app.day} {get_month(app.month)} {app.year}  {app.hour} : {app[1]}</li>
-            <button on:click={() => delete_appointment_to_database(user_id, app.year, app.month, app.day, app.hour)}></button>
-        </div>
-    {/each}
-{/await}
-
+    {#await promise then appointments}
+        {#each appointments as app}
+            <div class="appointment">
+                <li>{app.day} {get_month(app.month)} {app.year}  {app.hour} : {app[1]}</li>
+                <button on:click={() => delete_appointment_to_database(user_id, app.year, app.month, app.day, app.hour)}></button>
+            </div>
+        {/each}
+    {/await}
 <style>
 li{
     list-style: none;
