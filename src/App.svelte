@@ -1,24 +1,13 @@
 <script>
 	// Import login form
 	import LoginForm, { logout } from './form/login.svelte';
-
-	// Import account page
 	import Account from './pages/account.svelte';
-
-	// Import register form
 	import RegisterForm from './form/register.svelte';
-
-	// Import home page
 	import Home from './pages/home.svelte';
-
-	// Import navbar
     import Navbar from './navbar.svelte';
-
-	// Import footer
 	import Footer from './footer.svelte';
-
-	// Import appointments
 	import Appointment from './appointment/appointment.svelte';
+	import ChatSelector from './chat/chat_selector.svelte';
 
 	const pages = [
 		"home",
@@ -28,7 +17,7 @@
 		"appointment"
 	];
 	
-	let page_displayed = pages[4];
+	let page_displayed = pages[0];
 
 	let loggedIn = false;
 
@@ -70,6 +59,10 @@
 	<Account/>
 {:else if page_displayed == "appointment"}
 	<Appointment/>
+{/if}
+
+{#if loggedIn}
+	<ChatSelector/>
 {/if}
 <!--Footer/-->
 </main>
