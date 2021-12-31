@@ -109,8 +109,17 @@ export async function get_number_of_appointment_in_the_day(year, month, day)
         {   
             if (doc.exists)
             {
-                let day_map = doc.data()[`${month}`][`${day}`];
+                // Check if month exists
+                let day_map = doc.data()[`${month}`];
+                if (day_map == undefined)
+                {
+                    console.log(`Day ${day}/${month}/${year} does not exist in the database.`);
+                    create_day(year, month, day);
+                    return 0;
+                }
 
+                // Check if day exists
+                day_map = doc.data()[`${month}`][`${day}`];
                 if (day_map == undefined)
                 {
                     console.log(`Day ${day}/${month}/${year} does not exist in the database.`);
@@ -121,7 +130,6 @@ export async function get_number_of_appointment_in_the_day(year, month, day)
                 // Check all sub map
                 for (let key in day_map)
                 {
-                    console.log(key);
                     if (day_map[key].purpose != "" && day_map[key].user_id != "")
                     {
                         number_of_appointment++;

@@ -9,6 +9,8 @@
 	import Appointment from './appointment/appointment.svelte';
 	import ChatSelector from './chat/chat_selector.svelte';
 
+	// import Product from './payments/product.svelte';
+
 	const pages = [
 		"home",
 		"login",
@@ -64,7 +66,8 @@
 {#if loggedIn}
 	<ChatSelector/>
 {/if}
-<!--Footer/-->
+<!-- <Product name='Test' amount='1999' price_id='price_1KCt2CJm42LaAy7D9x3Ks2IF'/> -->
+
 </main>
 
 <style>

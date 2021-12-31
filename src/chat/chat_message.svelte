@@ -1,17 +1,35 @@
 <script>
     export let message_class;
     export let message_text;
+    export let message_date;
+    export let author;
     export let photo_url;
 </script>
 
 <div class={message_class}>
-    <img src={photo_url} alt=""/>
-    <p>{message_text}</p>
+    <!-- <img src={photo_url} alt=""/> -->
+    <p class="message">{message_text}</p>
+    <p class="date">{message_date}</p>
+    <p class="author">{author}</p>
 </div>
 
 <style>
-p {
-  max-width: 500px;
+p.date{
+  width: fit-content;
+  font-size: 0.8em;
+  color: #999;
+  border: none;
+}
+
+p.author{
+  width: fit-content;  
+  font-size: 0.8em;
+  color: #999;
+  border: none;
+}
+
+p.message {
+  width: fit-content;
   margin-bottom: 12px;
   line-height: 24px;
   padding: 10px 20px;
@@ -46,4 +64,5 @@ img {
   border-radius: 50%;
   margin: 2px 5px;
 }
+
 </style>

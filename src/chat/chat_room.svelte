@@ -42,6 +42,8 @@
     {#each messages_rendered as message}
         <ChatMessage message_class={message.sender == uid ? 'sent' : 'received'} 
                      message_text={message.text}
+                     message_date={message}
+                     author={message.sender}
                      photo_url={message.photo_url}
         />
     {/each}
@@ -89,7 +91,6 @@ form button {
   width: 20%;
   background-color: rgb(56, 56, 143);
 }
-
 
 input {
   line-height: 1.5;

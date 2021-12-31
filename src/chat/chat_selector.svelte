@@ -25,11 +25,13 @@
 
 </script>
 
-{#await promise then conversation_list}
-    {#each conversation_list as conversation}
-        <button on:click={() => open_conversation(conversation.id)}></button>
-    {/each}
-{/await}
+{#if is_rendered}
+  {#await promise then conversation_list}
+      {#each conversation_list as conversation}
+          <button on:click={() => open_conversation(conversation.id)}></button>
+      {/each}
+  {/await}
+{/if}
 
 {#if opened_id != null}
     <ChatRoom conversation_id={opened_id}/>
@@ -41,7 +43,7 @@
 
 button{
   background-color: #3612ad;
-  border: none;
+  border: 2px solid black;
   color: white;
   padding: 20px;
 }

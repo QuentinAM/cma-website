@@ -136,12 +136,9 @@
             else
             {
                 var result = await get_number_of_appointment_in_the_day(year, month, i + 1);
-                console.log("result " + result);
                 whole_month.push(number_of_appointments_per_day - result);
             }
         }
-        console.log("Actual month: " + actual_month + " " + actual_month.length);
-        console.log("Whole month: " + whole_month + " " + whole_month.length);
         return whole_month;
     }
 
