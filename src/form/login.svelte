@@ -60,6 +60,7 @@
 
 </script>
 
+<div class="form-group">
 <!--- Email input --->
 <CustomInput placeholder="Email" type="text" id="email"
             isError={(!email.includes('@')) || (!email.includes('.'))} 
@@ -77,8 +78,8 @@
 <!--- Login button input --->
 <CustomButton name="Continuer" on:click={login}/>
 
-<button on:click={show_register}>S'inscrire</button>
-
+<button class="form-control" on:click={show_register}>S'inscrire</button>
+</div>
 <style>
     button{
         border: none;

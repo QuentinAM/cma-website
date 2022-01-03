@@ -13,7 +13,17 @@
 
     // Messages variables
     let messages_rendered = [];
+    let messages_dates = [];
+
     let content_typed = "";
+
+    function sort_messages()
+    {
+        messages_rendered.sort(function(a, b) {
+            return messages_dates[b] - messages_dates[a];
+        });
+    }
+
 
     const uid = firebase.auth().currentUser.uid;
     const conversation_ref = firebase.firestore().collection('conversations').doc(conversation_id);
@@ -24,13 +34,18 @@
         for (let message in messages)
         {
             // If message is not rendered
-            if (!messages_rendered.includes(messages[message]))
+            if (!messages_dates.includes(message))
             {
                 //TODO:Render message
                 console.log('New message :', 'at ' + message, messages[message].text);
 
                 // Add message to rendered messages
-                messages_rendered = [...messages_rendered, messages[message]];
+                messages_rendered.push(messages[message]);
+                messages_dates.push(message);
+
+                sort_messages();
+                messages_rendered =  messages_rendered;
+                console.log(messages_dates);
                 console.log(messages_rendered);
             }
         }
@@ -39,10 +54,10 @@
 </script>
 
 <main>
-    {#each messages_rendered as message}
+    {#each messages_rendered as message, i}
         <ChatMessage message_class={message.sender == uid ? 'sent' : 'received'} 
                      message_text={message.text}
-                     message_date={message}
+                     message_date={messages_dates[i]}
                      author={message.sender}
                      photo_url={message.photo_url}
         />
@@ -51,13 +66,13 @@
 
 <form>
     <input type="text" name="message" placeholder="Type a message..." bind:value={content_typed}/>
-    <button type="button" on:click={() => send_message(content_typed, "", conversation_ref)}>Send</button>
+    <button type="button" on:click={() => {send_message(content_typed, "", conversation_ref); content_typed = "";}}>Send</button>
 </form>
 
 <style>
 main {
   padding: 10px;
-  height: 80vh;
+  height: 70vh;
   margin: 10vh 0 10vh;
   overflow-y: scroll;
   display: flex;
@@ -77,11 +92,11 @@ main::-webkit-scrollbar-thumb {
 }
 
 form {
-  height: 10vh;
+  height: 9vh;
   position: fixed;
   bottom: 0;
   background-color: rgb(24, 23, 23);
-  width: 100%;
+  width: 30%;
   max-width: 728px;
   display: flex;
   font-size: 1.5rem;
