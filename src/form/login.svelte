@@ -62,40 +62,40 @@
 
 <div class="form-group">
 <!--- Email input --->
+<label for="exampleInputEmail1">Email address</label>
 <CustomInput placeholder="Email" type="text" id="email"
             isError={(!email.includes('@')) || (!email.includes('.'))} 
             error_message="Invalid email" 
             bind:content={email}
 />
+<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+</div>
 
+<div class="form-group">
 <!--- Password input --->
+<label for="exampleInputPassword1">Password</label>
 <CustomInput placeholder="Mot de passe" type="password" id="password"
             isError={password_error} 
             error_message="Invalid password" 
             bind:content={password}
 />
+</div>
 
 <!--- Login button input --->
 <CustomButton name="Continuer" on:click={login}/>
 
-<button class="form-control" on:click={show_register}>S'inscrire</button>
-</div>
+<button class="form-control btn btn-secondary" on:click={show_register}>S'inscrire</button>
 <style>
-    button{
-        border: none;
-        background-color: transparent;
-        font-weight: bold;
-        font-size: 1.1rem;
-        border-radius: 4px;
-        padding: 10px;
-        margin: 10px;
-    }
-    button:hover{
-        cursor: pointer;
-        color: rgb(14, 135, 165);
-    }
-    button:active{
-        transform: scale(0.98);
-        background-color: transparent;
-    }
+button{
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 10px;
+    margin-top: 10px;
+}
+button:hover{
+    cursor: pointer;
+}
+button:active{
+    transform: scale(0.98);
+}
 </style>

@@ -31,14 +31,14 @@
     </div>
 </div>
 <style>
-    .settings{
-        margin: 1 auto;
-    }
+.settings{
+    margin: 1 auto;
+}
 
-    .content button{
-        position: relative;;
-        width: 10%;
-        height: 100%;
-        border: 3px solid green;
-    }
+.content button{
+    position: relative;;
+    width: 10%;
+    height: 100%;
+    border: 3px solid green;
+}
 </style>

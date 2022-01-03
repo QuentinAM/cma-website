@@ -65,15 +65,15 @@
 </main>
 
 <form>
-    <input type="text" name="message" placeholder="Type a message..." bind:value={content_typed}/>
-    <button type="button" on:click={() => {send_message(content_typed, "", conversation_ref); content_typed = "";}}>Send</button>
+  <input type="text" name="message" placeholder="Type a message..." bind:value={content_typed}/>
+  <button type="button" on:click={() => {send_message(content_typed, "", conversation_ref); content_typed = "";}}>Send</button>
 </form>
 
 <style>
 main {
   padding: 10px;
   height: 70vh;
-  margin: 10vh 0 10vh;
+  margin: 1vh 0 9.5vh;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
@@ -94,22 +94,16 @@ main::-webkit-scrollbar-thumb {
 form {
   height: 9vh;
   position: fixed;
-  bottom: 0;
-  background-color: rgb(24, 23, 23);
-  width: 30%;
-  max-width: 728px;
+  bottom: 30px;
+  max-width: 720px;
   display: flex;
   font-size: 1.5rem;
 }
 
-form button {
-  width: 20%;
-  background-color: rgb(56, 56, 143);
-}
 
 input {
+  border-radius: 10% 0% 0% 10%;
   line-height: 1.5;
-  width: 100%;
   font-size: 1.5rem;
   background: rgb(58, 58, 58);
   color: white;
@@ -118,16 +112,22 @@ input {
   padding: 0 10px;
 }
 
-button {
-  background-color: #282c34; /* Green */
+form button {
+  border-radius: 0% 10% 10% 0%;
+  background-color: #282c34;
   border: none;
   color: white;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  cursor: pointer;
   font-size: 1.25rem;
+}
+
+form button:hover {
+  background-color: #6649b8;
+  color: black;
+  cursor: pointer;
 }
 
 button:disabled {
@@ -135,5 +135,8 @@ button:disabled {
   cursor: not-allowed;
 }
 
+button:active{
+  scale: transform(0.99);
+}
 
 </style>

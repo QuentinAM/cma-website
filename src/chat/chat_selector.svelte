@@ -30,7 +30,7 @@
     <ul class="list-group">
     {#await promise then conversation_list}
         {#each conversation_list as conversation}
-          <button type="button" on:click={() => open_conversation(conversation.id)} class="list-group-item list-group-item-action flex-column align-items-start">
+          <button type="button" on:click={() => open_conversation(conversation.id)} class="btn btn-primary list-group-item list-group-item-action flex-column align-items-start">
               {#each {length: conversation.data.participants.length - 1} as _, i}
                 {`${conversation.data.participants_name[conversation.data.participants[i]]}, `}
               {/each}
@@ -45,7 +45,9 @@
     {#if opened_id != null}
       <ChatRoom conversation_id={opened_id}/>
     {:else}
-
+      <div class="wait_for_conversation">
+        <p>Click on a conversation</p>
+      </div>
     {/if}
 
   {/if}
@@ -54,6 +56,19 @@
 </div>
 
 <style>
+.list-group{
+  height: 70vh;
+  overflow-y: scroll;
+}
+.btn-primary{
+  background-color: #07a0b4ca;
+  border-radius: 10%;
+}
+
+.wait_for_conversation{
+  background: black;
+}
+
 .chat_container{
   background: black;
   border: 1px solid black;
