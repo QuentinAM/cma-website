@@ -3,8 +3,8 @@
 	import LoginForm, { logout } from './form/login.svelte';
 	import Account from './pages/account.svelte';
 	import RegisterForm from './form/register.svelte';
-	import Home from './pages/home.svelte';
-    import Navbar from './navbar.svelte';
+	import Home from './pages/home/home.svelte';
+    import Navbar from './pages/home/navbar.svelte';
 	import Footer from './footer.svelte';
 	import Appointment from './appointment/appointment.svelte';
 	import ChatSelector from './chat/chat_selector.svelte';
@@ -51,7 +51,7 @@
 {#if page_displayed == "home"}
 	<Home/>
 {:else if page_displayed == "login"}
-	<LoginForm ui_login={() => {loggedIn = true; page_displayed = pages[3]}} 
+	<LoginForm ui_login={() => {loggedIn = true; page_displayed = pages[0]}} 
 			   ui_logout={() => {loggedIn = false; page_displayed = pages[0]}}
 			   show_register={() => page_displayed = pages[2]}
 	/>
@@ -72,24 +72,23 @@
 </main>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "DM Sans", sans-serif !important;
+}
+
+main {
+	padding: 1em;
+	max-width: 240px;
+	margin: 0 auto;
+}
+@media (min-width: 640px) {
 	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
+		max-width: none;
 	}
+}
 
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
-
-	@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
-	*{
-		margin: 0;
-		padding: 0;
-		box-sizing: border-box;
-		font-family: "DM Sans", sans-serif !important;
-	}
 </style>

@@ -271,15 +271,12 @@
 </page>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
 main{
     float: left;
     width: 50%;
+    margin: 0;
+    padding: 0;
 }
 
 li{
@@ -409,7 +406,7 @@ button{
 
 selection{
     border: 2px solid black;
-    margin: 0;
+    margin: 0px 0px 0px 250px;
     position: absolute;
     top: 50%;
     width: 25%;
