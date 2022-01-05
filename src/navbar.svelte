@@ -8,57 +8,54 @@
     export let logout;
 </script>
 
-<nav class="navbar">
-    <button on:click={open_accueil()} class="nav-item">Accueil</button>
-    <button on:click={open_appointement()} class="nav-item">Prendre rendez-vous</button>
-    {#if logged_in}
-        <button on:click={open_account()} class="nav-item">Mon Compte</button>
-        <button on:click={logout()} class="nav-item">Se déconnecter</button>
-    {:else}
-        <button on:click={open_login()} class="nav-item">Se connecter</button>
-    {/if}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- svelte-ignore a11y-missing-attribute -->
+    <a  class="navbar-brand">
+    <img src="" width="30" height="30" class="d-inline-block align-top" alt="">
+        CMA
+    </a>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <!-- svelte-ignore a11y-missing-attribute -->
+            <a on:click={open_accueil()} class="nav-link">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <!-- svelte-ignore a11y-missing-attribute -->
+            <a on:click={open_appointement()} class="nav-link">Prendre rendez-vous</a>
+          </li>
+          {#if logged_in}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Mon compte
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <!-- svelte-ignore a11y-missing-attribute -->
+                <a class="dropdown-item">Action</a>
+                <!-- svelte-ignore a11y-missing-attribute -->
+                <a class="dropdown-item">Another action</a>
+                <div class="dropdown-divider"></div>
+                <!-- svelte-ignore a11y-missing-attribute -->
+                <a class="dropdown-item">Something else here</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <!-- svelte-ignore a11y-missing-attribute -->
+                <a on:click={logout()} class="nav-link">Se déconnecter</a>
+            </li>
+          {:else}
+            <li class="nav-item">
+                <!-- svelte-ignore a11y-missing-attribute -->
+                <a on:click={open_login()} class="nav-link">Se connecter</a>
+            </li>
+          {/if}
+        </ul>
+      </div>
 </nav>
 
 <style>
-.navbar{
-    background-color: rgb(38, 38, 47);
-    color: #fff;
-    display:flex;
-    justify-content: space-around;
-    align-items: center;
-    font-size: 20px;
-    width:100%
-}
-
-.navbar button{
-    background-color: transparent;
-    border: none;
-    color: #fff;
-    padding: 10px;
+ul.navbar-nav a:hover{
     cursor: pointer;
 }
-
-.navbar button:hover{
-    color: rgb(14, 135, 165);
-    transition: all 0.4s;
-}
-
-.navbar .nav-item {
-    list-style: none;
-    display: inline-block;
-    padding: 10px 10px;
-    color: #fff;
-    text-decoration: none;
-}
-
-.navbar .nav-item button:hover{
-    color: rgb(16, 16, 42);
-    transition: 0.25s;
-}
-
-@media screen and (max-width: 490px) {
-    .navbar .nav-item{
-        display: none;
-    }    
-  }
 </style>

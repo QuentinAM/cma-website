@@ -66,6 +66,7 @@
 {#if loggedIn}
 	<ChatSelector/>
 {/if}
+
 <!-- <Product name='Test' amount='1999' price_id='price_1KCt2CJm42LaAy7D9x3Ks2IF'/> -->
 
 </main>
