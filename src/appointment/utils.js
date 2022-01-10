@@ -147,6 +147,43 @@ export async function get_number_of_appointment_in_the_day(year, month, day)
     return number_of_appointment;
 }
 
+export async function get_number_of_appointment_in_the_month(year, month)
+{
+    let number_of_appointment = 0;
+    // Get the day from the database
+    let year_ref = firebase.firestore().collection(`appointments`).doc(`${year}`);
+    await year_ref.get()
+        .then((doc) =>
+        {   
+            if (doc.exists)
+            {
+                // Check if month exists
+                let day_map = doc.data()[`${month}`];
+                if (day_map == undefined)
+                {
+                    console.log(`Month ${month}/${year} does not exist in the database.`);
+                    return 0;
+                }
+
+                // Check all sub map
+                for (let key in day_map)
+                {
+                    if (day_map[key].purpose != "" && day_map[key].user_id != "")
+                    {
+                        number_of_appointment++;
+                    }
+                }
+            }
+            else
+            {
+                console.log(`Month ${month}/${year} does not exist in the database.`);
+                return 0;
+            }
+        })
+        .catch((error) => console.log(`Error getting month ${month}/${year} from the database: ${error}`));
+    return number_of_appointment;
+}
+
 export function write_appointment_to_database(user_id, purpose, year, month, day, hour)
 {
     // Compute the date

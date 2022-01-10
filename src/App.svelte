@@ -10,6 +10,7 @@
 	import ChatSelector from './chat/chat_selector.svelte';
 
 	// import Product from './payments/product.svelte';
+	import { NotificationDisplay } from '@beyonk/svelte-notifications'
 
 	const pages = [
 		"home",
@@ -47,6 +48,9 @@
 		open_appointement={() => page_displayed = pages[4]}
 		logout={() => {logout(); loggedIn = false; page_displayed = pages[0]}}
 />
+
+<NotificationDisplay/>
+
 <!-- svelte-ignore empty-block -->
 {#if page_displayed == "home"}
 	<Home/>
@@ -85,7 +89,7 @@ main {
 	max-width: 240px;
 	margin: 0 auto;
 }
-@media (min-width: 640px) {
+@media (min-width: 300px) {
 	main {
 		max-width: none;
 	}

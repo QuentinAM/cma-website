@@ -1,6 +1,5 @@
 <script>
     import * as animateScroll from "svelte-scrollto";
-    import viewport from './viewport.js'; 
 
     function handle_click_about(e)
     {
@@ -19,7 +18,7 @@
     <div class="row">
         <div class="col-sm-6">
             <h2>Cabinet Marc Abel</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur
+            <p class="text">Lorem ipsum dolor sit amet, consectetur
                 adipiscing elit, sed do eiusmod tempor
                 incididunt ut labore et dolore magna aliqua.
                 Ut enim ad minim veniam, quis nostrud exercitation
@@ -38,10 +37,20 @@
 </section>
 
 <style>
-.row{
+.text
+{
+    box-shadow: 0 0 1rem 0 rgba(255, 255, 255, 0.445); 
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, .15);
+    backdrop-filter: blur(5px);
+    transition: ease all 1.5s;
+}
+.row
+{
     padding: 200px 0 200px;
 }
-.banner{
+.banner
+{
     position: relative;
     background: grey;
     min-height: 100vh;
@@ -72,12 +81,14 @@
     padding: 10px 20px;
     text-transform: uppercase;
     border: none;
+    border-radius: 15px;
     text-decoration: none;
     font-weight: 400;
+    transition: 0.3s;
 }
 .btnD1:hover{
     color: #fff;
-    text-decoration: none;
+    background: #cf0c4d;
 }
 @media (max-width: 768px)
 {

@@ -90,7 +90,7 @@
             error_message="Invalid email" 
             bind:content={email}
 />
-<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+<small id="emailHelp" class="form-text text-muted">Votre email ne sera jamais partagé.</small>
 </div>
 
 <div class="form-group">
@@ -116,7 +116,12 @@
 <div class="form-group">
 <!--- Phone input --->
 <label for="exampleInputEmail1">Téléphone</label>
-<Phone/>
+<!-- <Phone/> -->
+<CustomInput placeholder="+33" type="text" id="phone"
+            isError={false} 
+            error_message="" 
+            bind:content={phone}
+/>
 </div>
 
 <div class="form-group">
@@ -158,3 +163,13 @@
 
 <!--- Login button input --->
 <CustomButton name="Continuer" on:click={register}/>
+
+
+<style>
+.form-group
+{
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+</style>

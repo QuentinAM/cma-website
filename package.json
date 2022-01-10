@@ -8,6 +8,7 @@
     "start": "sirv public --no-clear"
   },
   "devDependencies": {
+    "@beyonk/svelte-notifications": "^4.1.1",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "firebase": "^9.6.1",

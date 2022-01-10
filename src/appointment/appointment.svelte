@@ -1,11 +1,15 @@
 <script>
+    // Functions
     import { get_hour_available_in_the_day, get_number_of_appointment_in_the_day, is_in_the_past, book_appointment, get_month, is_weekend, hours } from './utils.js';
-
+    
+    // Components
     import CustomInput from '../form/input.svelte';
     import CustomButton from '../button.svelte';
 
+    // Lib imports
     import firebase from 'firebase/compat/app';
     import 'firebase/compat/firestore';
+    import { notifier } from '@beyonk/svelte-notifications';
 
     // Const variables
     const number_of_appointments_per_day = 8;
@@ -163,6 +167,7 @@
     function confirm_appointment()
     {
         book_appointment(year_selected, month_selected, day_selected, hour_selected, purpose);
+        notifier.success("Rendez-vous confirmé pour le " + day_selected + "/" + month_selected + "/" + year_selected + " à " + hour_selected + "h");
         whole_month[day_selected - 1]--;
     }
 
@@ -271,14 +276,6 @@
 </page>
 
 <style>
-
-main{
-    float: left;
-    width: 50%;
-    margin: 0;
-    padding: 0;
-}
-
 li{
     list-style: none;
 }
@@ -346,6 +343,7 @@ button{
     place-items: center;
     font-weight: bold;
     position: relative;
+    transition: all 0.3s ease-in-out;
 }
 
 .card .card__body .card__body--dates li.prev{
@@ -405,15 +403,11 @@ button{
 
 
 selection{
+    width: 100%;
     border: 2px solid black;
-    margin: 0px 0px 0px 250px;
-    position: absolute;
-    top: 50%;
-    width: 25%;
 }
 
 selection li{
-    flex: 1;
     font-weight: bold;
     text-transform: uppercase;
     text-align: center;
@@ -429,6 +423,34 @@ selection li.available:hover{
 
 selection li.not_available{
     color: rgba(75, 75, 75, 0.411);
+}
+
+appointment_details
+{
+    width: 100%;
+}
+
+@media screen and (max-width: 600px) {
+    main{
+        width: 100%;
+    }
+    selection{
+        margin: 0px 0px 0px 0px;
+        top: 0px;
+        width: 100%;
+    }
+    .card .card__body .card__body--dates li{
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .card .card__body .card__body--dates li.circle span
+    {
+        width: 0.75rem;
+        height: 0.75rem;
+        font-size: 0.75rem;
+    }
+
 }
 
 </style>

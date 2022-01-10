@@ -45,7 +45,7 @@
 </script>
 
 <div>
-  <nav class="navbar navbar-expand-lg navbar-light">
+  <nav class="navbar navbar-expand-md navbar-light">
     <a class="navbar-brand" id="accueil" href="/" on:click={handle_click}>CMA</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -120,6 +120,10 @@
   border: 2px solid #7f7f7f;
   border-radius: 0;
   outline: none;
+}
+a{
+  border-radius: 15px;
+  text-decoration: none;
 }
 .dropdown-item{
   color: #262626;

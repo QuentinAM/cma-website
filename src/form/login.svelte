@@ -1,10 +1,13 @@
 <script>
     
-    // Import button
+    // Components
 	import CustomButton from '../button.svelte';
-
-    // Import input
     import CustomInput from './input.svelte';
+    
+    // Libs
+    import firebase from 'firebase/compat/app';
+    import "firebase/compat/auth";
+    import { notifier } from '@beyonk/svelte-notifications';
 
     // Email
     let email = "mail@d.fr";
@@ -18,8 +21,6 @@
     export let ui_logout; 
     export let show_register;
 
-    import firebase from 'firebase/compat/app';
-    import "firebase/compat/auth";
 
     const auth = firebase.auth();
 
@@ -30,13 +31,18 @@
         .then((userCredential) =>
         {
             console.log("Logged in");
+            notifier.success('Connecté', { timeout: 2000  });
             ui_login();
         })
         .catch(function(error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
-            if (errorCode === 'auth/wrong-password')
+            if (errorMessage === 'auth/wrong-password')
+            {
+                password_error = true;
+            }
+            else if (errorMessage == 'MISSING_PASSWORD')
             {
                 password_error = true;
             }
@@ -51,6 +57,7 @@
         firebase.auth().signOut().then(function()
         {
             console.log("Logged out");
+            notifier.success('Déconnecté', { timeout: 2000  });
             ui_logout();
         }).catch(function(error)
         {
@@ -65,10 +72,9 @@
 <label for="exampleInputEmail1">Email address</label>
 <CustomInput placeholder="Email" type="text" id="email"
             isError={(!email.includes('@')) || (!email.includes('.'))} 
-            error_message="Invalid email" 
+            error_message="Adresse email invalide." 
             bind:content={email}
 />
-<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
 </div>
 
 <div class="form-group">
@@ -86,6 +92,11 @@
 
 <button class="form-control btn btn-secondary" on:click={show_register}>S'inscrire</button>
 <style>
+.form-group
+{
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
 button{
     font-weight: bold;
     font-size: 1.1rem;
