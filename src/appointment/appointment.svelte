@@ -1,18 +1,13 @@
 <script>
     // Functions
-    import { get_hour_available_in_the_day, get_number_of_appointment_in_the_day, is_in_the_past, book_appointment, get_month, is_weekend, hours } from './utils.js';
+    import { get_hour_available_in_the_day, get_number_of_appointment_in_the_month, book_appointment, get_month, is_weekend, hours, number_of_appointments_per_day } from './utils.js';
     
     // Components
     import CustomInput from '../form/input.svelte';
     import CustomButton from '../button.svelte';
 
     // Lib imports
-    import firebase from 'firebase/compat/app';
-    import 'firebase/compat/firestore';
     import { notifier } from '@beyonk/svelte-notifications';
-
-    // Const variables
-    const number_of_appointments_per_day = 8;
 
     // Shown day
     let shown_day = [];
@@ -37,8 +32,10 @@
     let hour_selected = 0;
     
     // Get day name
-    function get_day(){
-        switch (day_number) {
+    function get_day()
+    {
+        switch (day_number)
+        {
             case 0:
                 return "Lundi";
             case 1:
@@ -55,8 +52,6 @@
                 return "Dimanche";
         }
     }
-
-    
 
     // Get number of day in a month
     function daysInMonth (month, year) {
@@ -130,26 +125,15 @@
         }
 
         // Update the shown month
-        whole_month = [];
-        for (let i = 0; i < actual_month.length; i++)
-        {
-            if (is_in_the_past(year, month, i + 1))
-            {
-                whole_month.push(-1);
-            }
-            else
-            {
-                var result = await get_number_of_appointment_in_the_day(year, month, i + 1);
-                whole_month.push(number_of_appointments_per_day - result);
-            }
-        }
+        whole_month = await get_number_of_appointment_in_the_month(year, month);
+        console.log("Whole month: " + whole_month);
         return whole_month;
     }
 
     async function show_day(year, month, day)
     {
         var res = await get_hour_available_in_the_day(year, month, day);
-        console.log("res " + res);
+        console.log("Got these hour " + res + " for " + year + "-" + month + "-" + day);
         shown_day = res;
 
         // Update selection variable
@@ -169,6 +153,7 @@
         book_appointment(year_selected, month_selected, day_selected, hour_selected, purpose);
         notifier.success("Rendez-vous confirmé pour le " + day_selected + "/" + month_selected + "/" + year_selected + " à " + hour_selected + "h");
         whole_month[day_selected - 1]--;
+        whole_month = whole_month;
     }
 
     // Create promise to be awaited
@@ -231,7 +216,7 @@
                     {:else}
                         <li on:click={() => show_day(year, month, day)} class="circle active">{day}
                             {#if whole_month[day - 1] != -1}
-                                <span>{whole_month[day - 1]}</span>
+                                <span>{number_of_appointments_per_day - whole_month[day - 1]}</span>
                             {/if}
                         </li>
                     {/if}
