@@ -12,10 +12,10 @@
 
 <ul class="list-group list-group-flush">
     {#await promise then appointments}
-        {#each appointments as app}
+        {#each appointments as app, id}
             <div class="appointment">
-                <li class="list-group-item">{app.day} {get_month(app.month)} {app.year}  {app.hour} : {app[1]}
-                    <button on:click={() => delete_appointment_to_database(user_id, app.year, app.month, app.day, app.hour)}>Supprimer</button>
+                <li class="list-group-item">{app.day} {get_month(app.month)} {app.year}  {app.hour} : {app.purpose}
+                    <button id={id} on:click={() => delete_appointment_to_database(user_id, app.year, app.month, app.day, app.hour)}>Supprimer</button>
                 </li>
             </div>
         {/each}

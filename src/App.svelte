@@ -7,6 +7,7 @@
     import Navbar from './pages/home/navbar.svelte';
 	import Footer from './footer.svelte';
 	import Appointment from './appointment/appointment.svelte';
+	import MyAppointments from './appointment/my_appointments.svelte';
 	import ChatSelector from './chat/chat_selector.svelte';
 
 	// import Product from './payments/product.svelte';
@@ -17,7 +18,8 @@
 		"login",
 		"register",
 		"profile",
-		"appointment"
+		"appointment",
+		"my_appointments"
 	];
 	
 	let page_displayed = pages[0];
@@ -46,6 +48,7 @@
 		open_login={() => page_displayed = pages[1]}
 		open_account={() => page_displayed = pages[3]}
 		open_appointement={() => page_displayed = pages[4]}
+		open_my_appointments={() => page_displayed = pages[5]}
 		logout={() => {logout(); loggedIn = false; page_displayed = pages[0]}}
 />
 
@@ -65,6 +68,8 @@
 	<Account/>
 {:else if page_displayed == "appointment"}
 	<Appointment/>
+{:else if page_displayed == "my_appointments"}
+	<MyAppointments/>
 {/if}
 
 {#if loggedIn}

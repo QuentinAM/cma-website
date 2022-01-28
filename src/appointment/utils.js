@@ -207,6 +207,11 @@ export async function get_appointment_from_database(user_id)
         });
     }
 
+    // Sort the appointments by date
+    res.sort(function(a, b) {
+        return new Date(a.year, a.month, a.day, a.hour) - new Date(b.year, b.month, b.day, b.hour);
+    });
+
     return res;
 }
 

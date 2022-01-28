@@ -8,6 +8,7 @@
     export let open_account;
     export let open_about;
     export let open_login;
+    export let open_my_appointments;
     export let logout;
 
     let actual_element = null;
@@ -40,6 +41,10 @@
         {
             open_about();
         }
+        else if (e.target.id == "my_appointments")
+        {
+            open_my_appointments();
+        }
     }
 
 </script>
@@ -68,8 +73,8 @@
             Mon compte
           </a>
           <div class="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/" on:click={handle_click}>Mes rendez-vous</a>
-            <a class="dropdown-item" href="/" on:click={handle_click}>Mes informations</a>
+            <a class="dropdown-item" id="my_appointments" href="/" on:click={handle_click}>Mes rendez-vous</a>
+            <a class="dropdown-item" id="account" href="/" on:click={handle_click}>Mes informations</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" id="logout" href="/" on:click={handle_click}>Se déconnecter</a>
           </div>
