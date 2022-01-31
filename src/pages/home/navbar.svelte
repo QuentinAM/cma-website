@@ -1,5 +1,8 @@
 <script>
     import { onMount } from 'svelte';
+    import firebase from 'firebase/compat/app';
+    import "firebase/compat/auth";
+  import 'firebase/compat/firestore';
 
     export let logged_in;
 
@@ -9,9 +12,11 @@
     export let open_about;
     export let open_login;
     export let open_my_appointments;
+    export let open_admin;
     export let logout;
 
     let actual_element = null;
+    let is_admin = false;
 
     function handle_click(e)
     {
@@ -45,7 +50,26 @@
         {
             open_my_appointments();
         }
+        else if (e.target.id == "admin")
+        {
+            open_admin();
+        }
     }
+
+    // When user logged in, check if he is admin
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user)
+        {
+            // Check user roles
+            firebase.firestore().collection("users").doc(user.uid).get().then(function(doc) {
+                is_admin = doc.data().roles.includes("admin");
+            });    
+        }
+        else
+        {
+            is_admin = false;
+        }
+    });
 
 </script>
 
@@ -79,6 +103,11 @@
             <a class="dropdown-item" id="logout" href="/" on:click={handle_click}>Se déconnecter</a>
           </div>
         </li>
+        {#if is_admin} 
+          <li class="nav-item">
+            <a class="nav-link" id="admin" href="/" on:click={handle_click}>Admin</a>
+          </li>
+        {/if}
         {:else}
           <li class="nav-item">
             <a class="nav-link" id="login" href="/" on:click={handle_click}>Se connecter</a>

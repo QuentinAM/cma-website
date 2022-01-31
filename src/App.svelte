@@ -19,7 +19,8 @@
 		"register",
 		"profile",
 		"appointment",
-		"my_appointments"
+		"my_appointments",
+		"admin"
 	];
 	
 	let page_displayed = pages[0];
@@ -49,6 +50,7 @@
 		open_account={() => page_displayed = pages[3]}
 		open_appointement={() => page_displayed = pages[4]}
 		open_my_appointments={() => page_displayed = pages[5]}
+		open_admin={() => page_displayed = pages[6]}
 		logout={() => {logout(); loggedIn = false; page_displayed = pages[0]}}
 />
 

@@ -15,6 +15,7 @@
     // Password
     let password = "";
     let password_error = false;
+    let password_message = "Mot de passe invalide.";
     
     // Update UI
     export let ui_login;
@@ -35,16 +36,18 @@
             ui_login();
         })
         .catch(function(error) {
+            password_error = true;
+
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
             if (errorMessage === 'auth/wrong-password')
             {
-                password_error = true;
+                password_message = "Mot de passe invalide.";
             }
             else if (errorMessage == 'MISSING_PASSWORD')
             {
-                password_error = true;
+                password_message = "Mot de passe manquant.";
             }
         });
     }
@@ -82,7 +85,7 @@
 <label for="exampleInputPassword1">Password</label>
 <CustomInput placeholder="Mot de passe" type="password" id="password"
             isError={password_error} 
-            error_message="Invalid password" 
+            error_message={password_message} 
             bind:content={password}
 />
 </div>
