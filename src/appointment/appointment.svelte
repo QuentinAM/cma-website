@@ -273,13 +273,16 @@ button{
     color: black;
     border: 2px solid black;
 }
-
+page
+{
+    padding-top: 5%;
+}
 .card {
     background: white;
     width: 90%;
     max-width: 40rem;
     min-height: 40rem;
-    margin: 5rem auto;
+    margin: 7% auto;
     display: grid;
     grid-template-rows: 8rem auto 10rem;
     box-shadow: 0 1rem 2.5rem rgb(27, 64, 94);

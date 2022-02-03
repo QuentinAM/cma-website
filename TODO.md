@@ -10,10 +10,12 @@
 - [Firebase security checklist](https://firebase.google.com/support/guides/security-checklist)
 - [Firebase launch checklist](https://firebase.google.com/support/guides/launch-checklist)
 
+### Payments
+- Add date and is the payment is done or not to the champ of a payment in the database
+
 ### Login / Register
-- Add other register methods (google, facebook, ...) ?
-- Add a reset password form
-- Add a forgot password form
+- Add other register methods (google, facebook, ...) ? 📈
+- Add a reset password form 📈
 - Phone number internationalisation ? 📈
 
 ### About page

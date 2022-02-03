@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
     import firebase from 'firebase/compat/app';
     import "firebase/compat/auth";
-  import 'firebase/compat/firestore';
+    import 'firebase/compat/firestore';
 
     export let logged_in;
 
@@ -15,14 +15,22 @@
     export let open_admin;
     export let logout;
 
-    let actual_element = null;
+    let actual_element = "";
     let is_admin = false;
 
     function handle_click(e)
     {
         e.preventDefault();
-        e.target.parentNode.classList.add('active');
-        if (e.target.id == "accueil")
+
+        if (actual_element != "")
+        {
+            document.getElementById(actual_element).parentNode.classList.remove("active");
+        }
+
+        actual_element = e.target.id;
+        console.log(actual_element);
+        e.target.parentNode.classList.add("active");
+        if (e.target.id == "accueil" || e.target.id == "accueil2")
         {
             open_accueil();
         }
@@ -73,56 +81,54 @@
 
 </script>
 
-<div>
-  <nav class="navbar navbar-expand-md navbar-light">
-    <a class="navbar-brand" id="accueil" href="/" on:click={handle_click}>CMA</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+<nav class="navbar navbar-expand-md navbar-light fixed-top">
+  <a class="navbar-brand" id="accueil2" href="/" on:click={handle_click}>CMA</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" id="accueil" href="/" on:click={handle_click}>Accueil</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="appointement" href="/" on:click={handle_click}>Prendre rendez-vous</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="about" href="/" on:click={handle_click}>A propos</a>
+      </li>
+      {#if logged_in}
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Mon compte
+        </a>
+        <div class="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" id="my_appointments" href="/" on:click={handle_click}>Mes rendez-vous</a>
+          <a class="dropdown-item" id="account" href="/" on:click={handle_click}>Mes informations</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" id="logout" href="/" on:click={handle_click}>Se déconnecter</a>
+        </div>
+      </li>
+      {#if is_admin} 
         <li class="nav-item">
-          <a class="nav-link" id="accueil" href="/" on:click={handle_click}>Accueil</a>
+          <a class="nav-link" id="admin" href="/" on:click={handle_click}>Admin</a>
         </li>
+      {/if}
+      {:else}
         <li class="nav-item">
-          <a class="nav-link" id="appointement" href="/" on:click={handle_click}>Prendre rendez-vous</a>
+          <a class="nav-link" id="login" href="/" on:click={handle_click}>Se connecter</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" id="about" href="/" on:click={handle_click}>A propos</a>
-        </li>
-        {#if logged_in}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Mon compte
-          </a>
-          <div class="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" id="my_appointments" href="/" on:click={handle_click}>Mes rendez-vous</a>
-            <a class="dropdown-item" id="account" href="/" on:click={handle_click}>Mes informations</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" id="logout" href="/" on:click={handle_click}>Se déconnecter</a>
-          </div>
-        </li>
-        {#if is_admin} 
-          <li class="nav-item">
-            <a class="nav-link" id="admin" href="/" on:click={handle_click}>Admin</a>
-          </li>
-        {/if}
-        {:else}
-          <li class="nav-item">
-            <a class="nav-link" id="login" href="/" on:click={handle_click}>Se connecter</a>
-          </li>
-        {/if}
-      </ul>
-    </div>
-  </nav>
-</div>
+      {/if}
+    </ul>
+  </div>
+</nav>
 
 
 <style>
 .navbar{
   padding: 20px 20px;
-  border-radius: 20px 20px 0 0;
+  border-radius: 0 0 20px 20px;
   background-color: #c5c5c5;
   z-index: 10;
   width: 100%;

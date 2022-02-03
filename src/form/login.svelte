@@ -51,6 +51,29 @@
             }
         });
     }
+
+    function handle_click(e)
+    {
+        e.preventDefault();
+
+        if (e.target.id == "password_reset")
+        {
+            firebase.auth().sendPasswordResetEmail(email)
+            .then(() => 
+            {
+                notifier.success('Email envoyé', { timeout: 2000  });
+            })
+            .catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                
+                if (errorCode == 'auth/user-not-found')
+                {
+                    notifier.danger('Utilisateur introuvable', { timeout: 2000  });
+                }
+            });
+        }
+    }
 </script>
 
 <script context="module">
@@ -70,35 +93,46 @@
 
 </script>
 
-<div class="form-group">
-<!--- Email input --->
-<label for="exampleInputEmail1">Email address</label>
-<CustomInput placeholder="Email" type="text" id="email"
-            isError={(!email.includes('@')) || (!email.includes('.'))} 
-            error_message="Adresse email invalide." 
-            bind:content={email}
-/>
+<div class="form">
+    <div class="form-group">
+    <!--- Email input --->
+    <label for="exampleInputEmail1">Email address</label>
+    <CustomInput placeholder="Email" type="text" id="email"
+                isError={(!email.includes('@')) || (!email.includes('.'))} 
+                error_message="Adresse email invalide." 
+                bind:content={email}
+    />
+    </div>
+
+    <div class="form-group">
+    <!--- Password input --->
+    <label for="exampleInputPassword1">Password</label>
+    <CustomInput placeholder="Mot de passe" type="password" id="password"
+                isError={password_error} 
+                error_message={password_message} 
+                bind:content={password}
+    />
+    </div>
+
+    <!--- Login button input --->
+    <CustomButton name="Continuer" on:click={login}/>
+
+    <button class="form-control btn btn-secondary" on:click={show_register}>S'inscrire</button>
+    <a href="/" id="password_reset" on:click={handle_click}>Mot de passe oublié.</a>
 </div>
 
-<div class="form-group">
-<!--- Password input --->
-<label for="exampleInputPassword1">Password</label>
-<CustomInput placeholder="Mot de passe" type="password" id="password"
-            isError={password_error} 
-            error_message={password_message} 
-            bind:content={password}
-/>
-</div>
-
-<!--- Login button input --->
-<CustomButton name="Continuer" on:click={login}/>
-
-<button class="form-control btn btn-secondary" on:click={show_register}>S'inscrire</button>
 <style>
+.form
+{
+    padding-top: 6%;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
 .form-group
 {
-    margin-bottom: 10px;
-    margin-top: 10px;
+    margin-bottom: 0.5%;
+    margin-top: 0.5%;
 }
 button{
     font-weight: bold;

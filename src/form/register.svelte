@@ -82,94 +82,101 @@
 
 </script>
 
-<div class="form-group">
-<!--- Email input --->
-<label for="exampleInputEmail1">Email address</label>
-<CustomInput placeholder="Email" type="text" id="email"
-            isError={(!email.includes('@')) || (!email.includes('.'))} 
-            error_message="Invalid email" 
-            bind:content={email}
-/>
-<small id="emailHelp" class="form-text text-muted">Votre email ne sera jamais partagé.</small>
+<div class="form">
+    <div class="form-group">
+    <!--- Email input --->
+    <label for="exampleInputEmail1">Email address</label>
+    <CustomInput placeholder="Email" type="text" id="email"
+                isError={(!email.includes('@')) || (!email.includes('.'))} 
+                error_message="Invalid email" 
+                bind:content={email}
+    />
+    <small id="emailHelp" class="form-text text-muted">Votre email ne sera jamais partagé.</small>
+    </div>
+
+    <div class="form-group">
+    <!--- Firstname input --->
+    <label for="exampleInputEmail1">Prénom</label>
+    <CustomInput placeholder="Prénom" type="text" id="firstname"
+                isError={false} 
+                error_message="" 
+                bind:content={firstname}
+    />
+    </div>
+
+    <div class="form-group">
+    <!--- Lastname input --->
+    <label for="exampleInputEmail1">Nom</label>
+    <CustomInput placeholder="Nom" type="text" id="lastname"
+                isError={false} 
+                error_message="" 
+                bind:content={lastname}
+    />
+    </div>
+
+    <div class="form-group">
+    <!--- Phone input --->
+    <label for="exampleInputEmail1">Téléphone</label>
+    <!-- <Phone/> -->
+    <CustomInput placeholder="+33" type="text" id="phone"
+                isError={false} 
+                error_message="" 
+                bind:content={phone}
+    />
+    </div>
+
+    <div class="form-group">
+    <!--- Password input --->
+    <label for="exampleInputEmail1">Mot de passe</label>
+    <CustomInput placeholder="Mot de passe" type="password" id="password"
+                isError={password_error} 
+                error_message="Le mot de passe doit contenir au moins une majuscule, un caractère spécial, un chiffre et être de taille 8" 
+                bind:content={password}
+    />
+    </div>
+
+    <div class="form-group">
+    <!--- Password confirm input --->
+    <label for="exampleInputEmail1">Confirmation mot de passe</label>
+    <CustomInput placeholder="Confirmation mot de passe"
+                type="password" id="password_confirm"
+                isError={password_confirm != password} 
+                error_message="Les mots de passe ne correspondent pas" 
+                bind:content={password_confirm}
+    />
+    <small id="passwordHelp" class="form-text text-muted">Votre mot de passe respecter les critères suivants : 
+        <ul>
+            <li>
+                Doit contenir au moins 8 caractères
+            </li>
+            <li>
+                Doit contenir au moins une majuscule
+            </li>
+            <li>
+                Doit contenir au moins un chiffre
+            </li>
+            <li>
+                Doit contenir au moins un caractère spécial
+            </li>
+        </ul>
+    </small>
+    </div>
+
+    <!--- Login button input --->
+    <CustomButton name="Continuer" on:click={register}/>
 </div>
-
-<div class="form-group">
-<!--- Firstname input --->
-<label for="exampleInputEmail1">Prénom</label>
-<CustomInput placeholder="Prénom" type="text" id="firstname"
-            isError={false} 
-            error_message="" 
-            bind:content={firstname}
-/>
-</div>
-
-<div class="form-group">
-<!--- Lastname input --->
-<label for="exampleInputEmail1">Nom</label>
-<CustomInput placeholder="Nom" type="text" id="lastname"
-            isError={false} 
-            error_message="" 
-            bind:content={lastname}
-/>
-</div>
-
-<div class="form-group">
-<!--- Phone input --->
-<label for="exampleInputEmail1">Téléphone</label>
-<!-- <Phone/> -->
-<CustomInput placeholder="+33" type="text" id="phone"
-            isError={false} 
-            error_message="" 
-            bind:content={phone}
-/>
-</div>
-
-<div class="form-group">
-<!--- Password input --->
-<label for="exampleInputEmail1">Mot de passe</label>
-<CustomInput placeholder="Mot de passe" type="password" id="password"
-            isError={password_error} 
-            error_message="Le mot de passe doit contenir au moins une majuscule, un caractère spécial, un chiffre et être de taille 8" 
-            bind:content={password}
-/>
-</div>
-
-<div class="form-group">
-<!--- Password confirm input --->
-<label for="exampleInputEmail1">Confirmation mot de passe</label>
-<CustomInput placeholder="Confirmation mot de passe"
-            type="password" id="password_confirm"
-            isError={password_confirm != password} 
-            error_message="Les mots de passe ne correspondent pas" 
-            bind:content={password_confirm}
-/>
-<small id="passwordHelp" class="form-text text-muted">Votre mot de passe respecter les critères suivants : 
-    <ul>
-        <li>
-            Doit contenir au moins 8 caractères
-        </li>
-        <li>
-            Doit contenir au moins une majuscule
-        </li>
-        <li>
-            Doit contenir au moins un chiffre
-        </li>
-        <li>
-            Doit contenir au moins un caractère spécial
-        </li>
-    </ul>
-</small>
-</div>
-
-<!--- Login button input --->
-<CustomButton name="Continuer" on:click={register}/>
-
 
 <style>
 .form-group
 {
     margin-bottom: 10px;
     margin-top: 10px;
+}
+.form
+{
+    padding-top: 6%;
+    padding-left: 1%;
+    padding-right: 1%;
 }
 
 </style>

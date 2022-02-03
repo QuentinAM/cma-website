@@ -6,6 +6,8 @@
 	import Home from './pages/home/home.svelte';
     import Navbar from './pages/home/navbar.svelte';
 	import Footer from './footer.svelte';
+	import About from './pages/about.svelte';
+	import Admin from './pages/admin/admin.svelte';
 	import Appointment from './appointment/appointment.svelte';
 	import MyAppointments from './appointment/my_appointments.svelte';
 	import ChatSelector from './chat/chat_selector.svelte';
@@ -14,13 +16,14 @@
 	import { NotificationDisplay } from '@beyonk/svelte-notifications'
 
 	const pages = [
-		"home",
-		"login",
-		"register",
-		"profile",
-		"appointment",
-		"my_appointments",
-		"admin"
+		"home",		// 0
+		"login",	// 1
+		"register", // 2
+		"profile", // 3
+		"appointment", // 4
+		"my_appointments", // 5
+		"admin", // 6
+		"about" // 7
 	];
 	
 	let page_displayed = pages[0];
@@ -51,9 +54,11 @@
 		open_appointement={() => page_displayed = pages[4]}
 		open_my_appointments={() => page_displayed = pages[5]}
 		open_admin={() => page_displayed = pages[6]}
+		open_about={() => page_displayed = pages[7]}
 		logout={() => {logout(); loggedIn = false; page_displayed = pages[0]}}
 />
 
+<div class="expect-nav">
 <NotificationDisplay/>
 
 <!-- svelte-ignore empty-block -->
@@ -72,11 +77,18 @@
 	<Appointment/>
 {:else if page_displayed == "my_appointments"}
 	<MyAppointments/>
+{:else if page_displayed == "admin"}
+	<Admin/>
+{:else if page_displayed == "password_reset"}
+	<PasswordReset/>
+{:else if page_displayed == "about"}
+	<About/>
 {/if}
 
 {#if loggedIn}
 	<ChatSelector/>
 {/if}
+</div>
 
 <!-- <Product name='Test' amount='1999' price_id='price_1KCt2CJm42LaAy7D9x3Ks2IF'/> -->
 
@@ -90,11 +102,14 @@
 	box-sizing: border-box;
 	font-family: "DM Sans", sans-serif !important;
 }
+.expect-nav
+{
+	padding-top: 20px;
+}
 
 main {
-	padding: 1em;
-	max-width: 240px;
 	margin: 0 auto;
+	padding: 0;
 }
 @media (min-width: 300px) {
 	main {
