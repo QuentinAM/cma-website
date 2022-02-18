@@ -3,8 +3,8 @@
     import { get_hour_available_in_the_day, get_number_of_appointment_in_the_month, book_appointment, get_month, is_weekend, hours, number_of_appointments_per_day } from './utils.js';
     
     // Components
-    import CustomInput from '../form/input.svelte';
-    import CustomButton from '../button.svelte';
+    import CustomInput from '../components/input.svelte';
+    import CustomButton from '../components/button.svelte';
 
     // Lib imports
     import { notifier } from '@beyonk/svelte-notifications';

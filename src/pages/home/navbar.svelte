@@ -24,7 +24,13 @@
 
         if (actual_element != "")
         {
-            document.getElementById(actual_element).parentNode.classList.remove("active");
+            try{
+              document.getElementById(actual_element).parentNode.classList.remove("active");
+            }
+            catch(err) // When log in
+            {
+              console.log(err);
+            }
         }
 
         actual_element = e.target.id;
@@ -100,10 +106,10 @@
       </li>
       {#if logged_in}
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Mon compte
-        </a>
-        <div class="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
+        </button>
+        <div class="dropdown-menu animate slideIn" aria-labelledby="dropdownMenuButton">
           <a class="dropdown-item" id="my_appointments" href="/" on:click={handle_click}>Mes rendez-vous</a>
           <a class="dropdown-item" id="account" href="/" on:click={handle_click}>Mes informations</a>
           <div class="dropdown-divider"></div>
@@ -145,9 +151,12 @@
   font-size: 1.2em;
   text-transform: uppercase;
 }
-.navbar .navbar-nav .nav-item .nav-link:hover,
-.navbar .navbar-nav .nav-item.active .nav-link{
+.navbar .navbar-nav .nav-item .nav-link:hover{
   background: #262626;
+  color: #fff;
+}
+.navbar .navbar-nav .nav-item.active .nav-link{
+  background: #666666;
   color: #fff;
 }
 .navbar .navbar-nav .nav-item .nav-link{

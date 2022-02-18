@@ -1,12 +1,10 @@
-<script>
-	// Import login form
-	import LoginForm, { logout } from './form/login.svelte';
-	import Account from './pages/account.svelte';
-	import RegisterForm from './form/register.svelte';
+<script lang="ts">
+	import LoginForm, { logout } from './pages/form/login.svelte';
+	import Account from './pages/account/account.svelte';
+	import RegisterForm from './pages/form/register.svelte';
 	import Home from './pages/home/home.svelte';
     import Navbar from './pages/home/navbar.svelte';
-	import Footer from './footer.svelte';
-	import About from './pages/about.svelte';
+	import About from './pages/about/about.svelte';
 	import Admin from './pages/admin/admin.svelte';
 	import Appointment from './appointment/appointment.svelte';
 	import MyAppointments from './appointment/my_appointments.svelte';
@@ -26,7 +24,7 @@
 		"about" // 7
 	];
 	
-	let page_displayed = pages[0];
+	let page_displayed = pages[7];
 
 	let loggedIn = false;
 
@@ -79,8 +77,6 @@
 	<MyAppointments/>
 {:else if page_displayed == "admin"}
 	<Admin/>
-{:else if page_displayed == "password_reset"}
-	<PasswordReset/>
 {:else if page_displayed == "about"}
 	<About/>
 {/if}
@@ -94,7 +90,10 @@
 
 </main>
 
-<style>
+<style lang="postcss" global>
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
 *{
 	margin: 0;
