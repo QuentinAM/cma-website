@@ -108,25 +108,47 @@ export async function get_number_of_appointment_in_the_month(year, month)
 
     console.log(month_ref.docs);
 
-    for (const doc of month_ref.docs)
+    if (month_ref.docs.length == 0)
     {
-        const data = doc.data();
-        console.log(data.day);
-        if (!is_in_the_past(year, month, data.day))
+        console.log('Creating month');
+        await write_month_to_database(year, month_formated);
+    }
+    else
+    {
+        for (const doc of month_ref.docs)
         {
-            if (appointments[data.day - 1] == -1)
+            const data = doc.data();
+            console.log(data.day);
+            if (!is_in_the_past(year, month, data.day))
             {
-                appointments[data.day - 1] = 0;
-            }
+                if (appointments[data.day - 1] == -1)
+                {
+                    appointments[data.day - 1] = 0;
+                }
 
-            if (data.taken)
-            {
-                appointments[data.day - 1]++;   
+                if (data.taken)
+                {
+                    appointments[data.day - 1]++;   
+                }
             }
         }
     }
-
     return appointments;
+}
+
+export async function write_month_to_database(year, month)
+{
+    const number_of_days = new Date(year, month, 0).getDate();
+
+    // Compute the date
+    const res = compute_month_and_day(month, 0);
+    const month_formated = res[0];
+
+    for (let day = 0; day < number_of_days; day++){
+        hours.forEach(async (hour) => { 
+            await create_day(year, month_formated, day + 1, hour);
+        });
+    }
 }
 
 export async function write_appointment_to_database(user_id, purpose, year, month, day, hour)
@@ -166,24 +188,6 @@ export async function write_appointment_to_database(user_id, purpose, year, mont
         payment_id: payment_ref.id,
         payed: false
     }, {merge : true});
-
-    // Add the appointment to the user's appointments list
-    firebase.firestore().collection(`users`).doc(`${user_id}`).set({
-      appointments : {
-          [`${year}`]: {
-                [`${month}`]: {
-                    [`${day}`]: {
-                        [`${hour}`]: {
-                            purpose: purpose,
-                            associated_payment: payment_ref.id,
-                        }
-                    }
-                }
-           }
-      }  
-    }, {merge : true})
-    .then(() => console.log(`Added appointment for ${user_id} on ${day}/${month}/${year} ${hour}.`))
-    .catch((error) => console.log(`Error adding appointment for ${user_id} on ${day}/${month}/${year} ${hour}: ${error}`));
 }
 
 export async function get_appointment_from_database(user_id)

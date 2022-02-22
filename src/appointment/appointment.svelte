@@ -1,6 +1,12 @@
 <script>
     // Functions
-    import { get_hour_available_in_the_day, get_number_of_appointment_in_the_month, book_appointment, get_month, is_weekend, hours, number_of_appointments_per_day } from './utils.js';
+    import { get_hour_available_in_the_day, 
+        get_number_of_appointment_in_the_month, 
+        book_appointment, 
+        get_month, 
+        is_weekend,
+        number_of_appointments_per_day,
+        write_month_to_database } from './utils.js';
     
     // Components
     import CustomInput from '../components/input.svelte';
@@ -217,6 +223,8 @@
                         <li on:click={() => show_day(year, month, day)} class="circle active">{day}
                             {#if whole_month[day - 1] != -1}
                                 <span>{number_of_appointments_per_day - whole_month[day - 1]}</span>
+                            {:else}
+                                <span>8</span>
                             {/if}
                         </li>
                     {/if}
@@ -271,7 +279,6 @@ ul {
 button{
     size: 50px;
     color: black;
-    border: 2px solid black;
 }
 page
 {

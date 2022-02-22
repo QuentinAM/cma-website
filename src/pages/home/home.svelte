@@ -31,6 +31,10 @@
 </section>
 
 <style>
+section
+{
+    padding-top: 5%;
+}
 .text
 {
     box-shadow: 0 0 1rem 0 rgba(255, 255, 255, 0.445); 

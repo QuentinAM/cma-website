@@ -19,7 +19,6 @@
     var icon_url = "";
 
     // Information about the users
-    console.log(auth.currentUser.uid);
     db.collection("users").doc(auth.currentUser.uid).get()
         .then((doc) => {
             if (doc.exists)
@@ -44,17 +43,29 @@
 
 </script>
 
-<button on:click={() => {is_editing = !is_editing}}>Modifier</button>
-<Account_settings name="Nom Prénom" content={(first_name + last_name) || 'Non spéficié'} {is_editing}/>
-<Account_settings name="Email" content={email} {is_editing}/>
-<Account_settings name="Téléphone" content={phone_number || 'Non spécifié'} {is_editing}/>
-<My_Appointments/>
+<div class="account">
+    <button on:click={() => {is_editing = !is_editing}}>Modifier</button>
+    <Account_settings name="Nom" content={last_name || 'Non spéficié'} disabled={!is_editing}/>
+    <Account_settings name="Prénom" content={first_name || 'Non spéficié'} disabled={!is_editing}/>
+    <Account_settings name="Email" content={email} disabled={!is_editing}/>
+    <Account_settings name="Téléphone" content={phone_number || 'Non spécifié'} disabled={!is_editing}/>
+    <div class="appointments">
+        <My_Appointments/>
+    </div>
+</div>
 
 <style>
 button{
-        position: relative;;
-        width: 10%;
-        height: 100%;
-        border: 3px solid green;
+    position: relative;
+    width: 10%;
+    height: 100%;
+    border: 3px solid green;
+}
+.account{
+    padding-left: 1%;
+    padding-right: 1%;
+}
+.appointments{
+    padding-top: 2%;
 }
 </style>

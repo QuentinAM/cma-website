@@ -105,7 +105,7 @@
         <a class="nav-link" id="about" href="/" on:click={handle_click}>A propos</a>
       </li>
       {#if logged_in}
-      <li class="nav-item dropdown">
+      <!-- <li class="nav-item dropdown">
         <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Mon compte
         </button>
@@ -115,6 +115,15 @@
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" id="logout" href="/" on:click={handle_click}>Se déconnecter</a>
         </div>
+      </li> -->
+      <li class="nav-item">
+        <a class="nav-link" id="my_appointments" href="/" on:click={handle_click}>Mes rendez-vous</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="account" href="/" on:click={handle_click}>Mes informations</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" id="logout" href="/" on:click={handle_click}>Se déconnecter</a>
       </li>
       {#if is_admin} 
         <li class="nav-item">

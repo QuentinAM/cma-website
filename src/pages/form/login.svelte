@@ -124,7 +124,6 @@
 <style>
 .form
 {
-    padding-top: 6%;
     padding-left: 1%;
     padding-right: 1%;
 }

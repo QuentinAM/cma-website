@@ -97,18 +97,16 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
 *{
 	margin: 0;
-	padding: 0;
 	box-sizing: border-box;
 	font-family: "DM Sans", sans-serif !important;
 }
 .expect-nav
 {
-	padding-top: 20px;
+	padding-top: 10%;
 }
 
 main {
 	margin: 0 auto;
-	padding: 0;
 }
 @media (min-width: 300px) {
 	main {
